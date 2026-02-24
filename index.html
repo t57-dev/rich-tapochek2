@@ -18,1301 +18,7 @@
 }
 
 *{box-sizing:border-box;}
-
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  display:flex;
-  flex-direction:column;
-  height:100vh;
-  overflow:hidden;
-}
-
-.container{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  padding-bottom:80px;
-  position:relative;
-}
-
-.balance{
-  font-size:32px;
-  font-weight:900;
-  margin-bottom:20px;
-  background:linear-gradient(45deg,var(--gold1),var(--gold2));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.coin{
-  width:180px;
-  height:180px;
-  border-radius:50%;
-  background:radial-gradient(circle at 30% 30%,var(--gold1),var(--gold2));
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:70px;
-  cursor:pointer;
-  box-shadow:0 0 40px rgba(255,215,0,.5);
-  transition:transform .1s ease;
-  position:relative;
-  user-select:none;
-  -webkit-user-select:none;
-  touch-action:manipulation;
-}
-.coin:active{transform:scale(.92);}
-
-.floating{
-  position:absolute;
-  color:var(--gold1);
-  font-weight:900;
-  pointer-events:none;
-  animation:floatUp .8s ease forwards;
-}
-@keyframes floatUp{
-  0%{opacity:1;transform:translateY(0)}
-  100%{opacity:0;transform:translateY(-60px)}
-}
-
-/* medal button */
-.medal-btn{
-  position:fixed;
-  left:14px;
-  top:50%;
-  transform:translateY(-50%);
-  width:46px;
-  height:46px;
-  border-radius:14px;
-  border:1px solid #333;
-  background:rgba(26,29,36,.95);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  user-select:none;
-  -webkit-user-select:none;
-  touch-action:manipulation;
-  box-shadow:0 8px 24px rgba(0,0,0,.35);
-  z-index:5;
-}
-.medal-btn:active{transform:translateY(-50%) scale(.96);}
-.medal-btn span{font-size:22px;}
-
-/* bottom nav */
-.navbar{
-  position:fixed;
-  bottom:0;
-  width:100%;
-  height:70px;
-  background:var(--card);
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  border-top:1px solid #333;
-  z-index:4;
-}
-
-.nav-btn{
-  background:none;
-  border:none;
-  color:var(--muted);
-  font-size:14px;
-  cursor:pointer;
-}
-.nav-btn.active{color:var(--gold1);}
-
-/* modals + scroll */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.8);
-  display:none;
-  justify-content:center;
-  align-items:flex-start;
-  padding:14px;
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-  z-index:10;
-}
-
-.modal-content{
-  background:var(--card);
-  width:100%;
-  max-width:480px;
-  padding:20px;
-  border-radius:16px;
-
-  max-height:calc(100vh - 28px);
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-}
-
-.modal h2{margin:0 0 10px 0;}
-
-.close{
-  text-align:right;
-  cursor:pointer;
-  color:var(--muted);
-  user-select:none;
-  -webkit-user-select:none;
-}
-
-.small{
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.35;
-}
-.hr{height:1px;background:#333;margin:12px 0;}
-
-.shop-item,.donate-item,.medal-item{
-  background:#222;
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-}
-
-.medal-left{display:flex;flex-direction:column;gap:4px;}
-.medal-title{font-weight:900;}
-.medal-meta{font-size:12px;color:var(--muted);}
-
-button.buy{
-  background:linear-gradient(45deg,var(--gold1),var(--gold2));
-  border:none;
-  padding:8px 12px;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:900;
-  white-space:nowrap;
-}
-button.buy[disabled]{opacity:.55;cursor:not-allowed;}
-
-.code-input{
-  width:100%;
-  padding:10px 12px;
-  border-radius:10px;
-  border:1px solid #333;
-  background:#15171c;
-  color:var(--text);
-  outline:none;
-  font-size:14px;
-}
-.code-btn{width:100%;padding:10px 12px;border-radius:12px;margin-top:10px;}
-
-.result{
-  text-align:center;
-  font-weight:950;
-  margin-top:8px;
-}
-.result.ok{color:var(--ok);}
-.result.bad{color:var(--danger);}
-
-.panel{
-  background:#222;
-  border-radius:12px;
-  padding:12px;
-  margin-bottom:12px;
-}
-
-.row{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.stake-input{
-  width:100%;
-  padding:10px 12px;
-  border-radius:10px;
-  border:1px solid #333;
-  background:#15171c;
-  color:var(--text);
-  outline:none;
-  font-size:14px;
-}
-
-.quick{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:10px;
-}
-.quick button{
-  background:#15171c;
-  color:var(--text);
-  border:1px solid #333;
-  padding:6px 10px;
-  border-radius:10px;
-  cursor:pointer;
-  font-size:12px;
-}
-
-.choice-wrap{display:flex;gap:10px;}
-.choice{
-  flex:1;
-  padding:10px 12px;
-  border-radius:10px;
-  border:1px solid #333;
-  background:#15171c;
-  color:var(--text);
-  cursor:pointer;
-  font-weight:950;
-}
-.choice.active{
-  border-color:var(--gold1);
-  box-shadow:0 0 0 2px rgba(255,215,0,.15) inset;
-}
-
-.flip-area{display:flex;align-items:center;justify-content:center;margin:12px 0 6px 0;}
-.flip-coin{
-  width:96px;height:96px;border-radius:50%;
-  background:radial-gradient(circle at 30% 30%,var(--gold1),var(--gold2));
-  display:flex;align-items:center;justify-content:center;
-  font-size:40px;
-  box-shadow:0 0 30px rgba(255,215,0,.35);
-  user-select:none;-webkit-user-select:none;
-}
-.flip-coin.flipping{animation:flip .9s ease-in-out;}
-@keyframes flip{
-  0%{transform:rotateY(0deg) rotateX(0deg) scale(1)}
-  50%{transform:rotateY(720deg) rotateX(180deg) scale(1.05)}
-  100%{transform:rotateY(1440deg) rotateX(360deg) scale(1)}
-}
-
-/* Wheel */
-.wheel-wrap{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin:10px 0 6px 0;
-  position:relative;
-  padding-top:8px;
-}
-
-.pointer{
-  position:absolute;
-  top:-10px;
-  left:50%;
-  transform:translateX(-50%);
-  width:0;height:0;
-  border-left:10px solid transparent;
-  border-right:10px solid transparent;
-  border-bottom:18px solid var(--gold1);
-  filter:drop-shadow(0 6px 10px rgba(0,0,0,.5));
-  z-index:3;
-}
-
-.wheel{
-  width:220px;
-  height:220px;
-  border-radius:50%;
-  border:2px solid #333;
-  background:
-    conic-gradient(
-      #2a2f3a 0deg 60deg,
-      #1f2430 60deg 120deg,
-      #2a2f3a 120deg 180deg,
-      #1f2430 180deg 240deg,
-      #2a2f3a 240deg 300deg,
-      #1f2430 300deg 360deg
-    );
-  box-shadow:0 0 34px rgba(0,0,0,.45);
-  position:relative;
-  transform:rotate(0deg);
-  transition:transform 1.25s cubic-bezier(.12,.8,.12,1);
-  user-select:none;
-  -webkit-user-select:none;
-  overflow:hidden;
-}
-.wheel::after{
-  content:"";
-  width:10px;height:10px;
-  border-radius:50%;
-  background:#111;
-  box-shadow:0 0 0 6px rgba(255,215,0,.15);
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  z-index:4;
-}
-.wheel-labels{
-  position:absolute;
-  inset:0;
-  border-radius:50%;
-  pointer-events:none;
-  z-index:2;
-}
-.wheel-label{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform-origin:0 0;
-  font-weight:950;
-  font-size:12px;
-  color:#e9e9e9;
-  text-shadow:0 1px 2px rgba(0,0,0,.6);
-}
-
-/* Casino menu */
-.menu-grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:10px;
-}
-.menu-btn{
-  width:100%;
-  background:#15171c;
-  border:1px solid #333;
-  color:var(--text);
-  padding:12px 12px;
-  border-radius:12px;
-  cursor:pointer;
-  text-align:left;
-}
-.menu-btn:active{transform:scale(.99);}
-.menu-title{font-weight:950;}
-.menu-sub{font-size:12px;color:var(--muted);margin-top:4px;}
-.menu-btn.locked{opacity:.6;cursor:not-allowed;}
-.back-btn{
-  background:#15171c;
-  border:1px solid #333;
-  color:var(--text);
-  padding:8px 10px;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:900;
-}
-.view{display:none;}
-.view.active{display:block;}
-
-/* Bytecoin */
-.mult{
-  font-size:28px;
-  font-weight:1000;
-  text-align:center;
-  margin:8px 0 6px 0;
-}
-.mult.ok{color:var(--ok);}
-.mult.bad{color:var(--danger);}
-</style>
-</head>
-
-<body>
-
-<div class="medal-btn" onclick="openModal('medals', null)"><span>🏅</span></div>
-
-<div class="container">
-  <div class="balance" id="balance">0</div>
-  <div class="coin" id="coin">👟</div>
-</div>
-
-<div class="navbar">
-  <button class="nav-btn" onclick="openModal('leaders', this)">Лидеры</button>
-  <button class="nav-btn" onclick="openModal('codes', this)">Коды</button>
-  <button class="nav-btn" onclick="openModal('shop', this)">Магазин</button>
-  <button class="nav-btn" onclick="openModal('donate', this)">Донат</button>
-  <button class="nav-btn" onclick="openModal('casino', this)">Казино</button>
-</div>
-
-<!-- Медали -->
-<div class="modal" id="medals">
-  <div class="modal-content">
-    <div class="close" onclick="closeModal('medals')">✖</div>
-    <h2>🏅 Медали</h2>
-    <div class="small">Открывай медали и забирай награды (каждую — 1 раз).</div>
-    <div class="hr"></div>
-
-    <div class="medal-item">
-      <div class="medal-left">
-        <div class="medal-title">🏅 Тапочный мелеонер</div>
-        <div class="medal-meta" id="m_million_meta">Нужно заработать 1,000,000</div>
-        <div class="medal-meta">Награда: +2 за тап</div>
-      </div>
-      <button class="buy" id="m_million_btn" onclick="claimMedal('tap_millionaire')">Забрать</button>
-    </div>
-
-    <div class="medal-item">
-      <div class="medal-left">
-        <div class="medal-title">🎰 Лудоман</div>
-        <div class="medal-meta" id="m_gambler_meta">Нужно сыграть 50 раз в казино</div>
-        <div class="medal-meta">Награда: +2 за тап</div>
-      </div>
-      <button class="buy" id="m_gambler_btn" onclick="claimMedal('gambler50')">Забрать</button>
-    </div>
-
-    <div class="medal-item">
-      <div class="medal-left">
-        <div class="medal-title">🚫 NO POLICE PLEASE</div>
-        <div class="medal-meta" id="m_nopolice_meta">Нужно активировать 3 кода</div>
-        <div class="medal-meta">Награда: +15k денег и +5 за тап</div>
-      </div>
-      <button class="buy" id="m_nopolice_btn" onclick="claimMedal('no_police')">Забрать</button>
-    </div>
-
-    <div class="hr"></div>
-    <div class="small">
-      Прогресс: заработано <b id="stat_earned">0</b>, игр в казино <b id="stat_casino">0</b>, активировано кодов <b id="stat_codes">0</b>.
-    </div>
-  </div>
-</div>
-
-<!-- Лидеры -->
-<div class="modal" id="leaders">
-  <div class="modal-content">
-    <div class="close" onclick="closeModal('leaders')">✖</div>
-    <h2>🏆 Лидеры</h2>
-    <p>1. TapMaster — 12M</p>
-    <p>2. GoldenFoot — 8.5M</p>
-    <p>3. RichSneaker — 4.2M</p>
-  </div>
-</div>
-
-<!-- Коды -->
-<div class="modal" id="codes">
-  <div class="modal-content">
-    <div class="close" onclick="closeModal('codes')">✖</div>
-    <h2>🎁 Коды</h2>
-    <div class="small">Введи промокод (каждый код можно активировать только 1 раз).</div>
-
-    <div class="hr"></div>
-
-    <input class="code-input" id="codeInput" type="text" placeholder="Введите код" autocomplete="off" />
-    <button class="buy code-btn" onclick="redeemCode()">Активировать</button>
-
-    <div class="small" id="codeMsg" style="margin-top:10px;"></div>
-  </div>
-</div>
-
-<!-- Магазин -->
-<div class="modal" id="shop">
-  <div class="modal-content">
-    <div class="close" onclick="closeModal('shop')">✖</div>
-    <h2>🛒 Магазин</h2>
-
-    <div class="shop-item">
-      <span id="upgrade1Text"></span>
-      <button class="buy" onclick="buyUpgrade('u1')">Купить</button>
-    </div>
-
-    <div class="shop-item">
-      <span id="upgrade3Text"></span>
-      <button class="buy" onclick="buyUpgrade('u3')">Купить</button>
-    </div>
-
-    <div class="shop-item">
-      <span id="upgrade5Text"></span>
-      <button class="buy" onclick="buyUpgrade('u5')">Купить</button>
-    </div>
-
-    <div class="shop-item">
-      <span id="upgrade10Text"></span>
-      <button class="buy" onclick="buyUpgrade('u10')">Купить</button>
-    </div>
-
-    <div class="small">Цена растёт по формуле: base × 1.6^уровень</div>
-  </div>
-</div>
-
-<!-- Донат -->
-<div class="modal" id="donate">
-  <div class="modal-content">
-    <div class="close" onclick="closeModal('donate')">✖</div>
-    <h2>⭐ Донат (Telegram Stars)</h2>
-
-    <div class="small">
-      Донат должен покупаться за <b>реальные Telegram Stars</b> через инвойсы/покупку в боте.<br>
-      Сейчас стоит заглушка: <b>tgBuyStarsPack(packId, onSuccess, onFail)</b> — <b>ВСТАВИТЬ СЮДА</b> реальную покупку.
-    </div>
-
-    <div class="hr"></div>
-
-    <div class="donate-item">
-      <span>10 ⭐ = 10 000 000</span>
-      <button class="buy" onclick="onDonatePack('stars10')">Купить</button>
-    </div>
-
-    <div class="donate-item">
-      <span>20 ⭐ = 22 000 000</span>
-      <button class="buy" onclick="onDonatePack('stars20')">Купить</button>
-    </div>
-
-    <div class="donate-item">
-      <span>30 ⭐ = 36 000 000</span>
-      <button class="buy" onclick="onDonatePack('stars30')">Купить</button>
-    </div>
-
-    <div class="hr"></div>
-    <div class="small">После успешной оплаты нужно вызвать <b>grantDonation(packId)</b>.</div>
-  </div>
-</div>
-
-<!-- Казино -->
-<div class="modal" id="casino">
-  <div class="modal-content">
-    <div class="close" onclick="closeModal('casino')">✖</div>
-    <h2>🎰 Казино</h2>
-
-    <!-- MENU -->
-    <div id="casinoMenu" class="view active">
-      <div class="small">Выбери игру:</div>
-      <div class="hr"></div>
-
-      <div class="menu-grid">
-        <button class="menu-btn" onclick="showCasinoView('ht')">
-          <div class="menu-title">🪙 Орёл / Решка</div>
-          <div class="menu-sub">Ты выигрываешь с шансом 47% (x2), проигрыш 53%</div>
-        </button>
-
-        <button class="menu-btn" onclick="showCasinoView('wheel')">
-          <div class="menu-title">🎡 Колесо фортуны</div>
-          <div class="menu-sub">x2 / x1 / x0.5 / 💀 / x3 (2.5%)</div>
-        </button>
-
-        <button class="menu-btn" onclick="showCasinoView('bytecoin')">
-          <div class="menu-title">📈 Байткоин</div>
-          <div class="menu-sub">Множитель растёт — успей вывести до обвала</div>
-        </button>
-
-        <button class="menu-btn locked" disabled>
-          <div class="menu-title">🔒 В разработке</div>
-          <div class="menu-sub">Скоро будет</div>
-        </button>
-      </div>
-    </div>
-
-    <!-- HEADS/TAILS -->
-    <div id="casinoHT" class="view">
-      <div class="row">
-        <button class="back-btn" onclick="showCasinoView('menu')">← Назад</button>
-        <div class="small">Победа 47% / проигрыш 53%</div>
-      </div>
-
-      <div class="hr"></div>
-
-      <div class="panel">
-        <div class="row" style="margin-bottom:10px;">
-          <div style="font-weight:950;">🪙 Орёл / Решка</div>
-          <div class="small">x2 при победе</div>
-        </div>
-
-        <div class="small" style="margin-bottom:6px;">Ставка (от 1k до 100M):</div>
-        <input class="stake-input" id="stakeInputHT" type="number" min="1000" max="100000000" step="1000" value="1000" />
-
-        <div class="quick">
-          <button onclick="setStake('HT',1000)">1k</button>
-          <button onclick="setStake('HT',10000)">10k</button>
-          <button onclick="setStake('HT',100000)">100k</button>
-          <button onclick="setStake('HT',1000000)">1M</button>
-          <button onclick="setStake('HT',10000000)">10M</button>
-          <button onclick="setStake('HT',100000000)">100M</button>
-        </div>
-
-        <div class="hr"></div>
-
-        <div class="small" style="margin-bottom:6px;">Выбор:</div>
-        <div class="choice-wrap">
-          <button class="choice active" id="pickHeads" onclick="pickSide('H')">Орёл</button>
-          <button class="choice" id="pickTails" onclick="pickSide('T')">Решка</button>
-        </div>
-
-        <div class="flip-area">
-          <div class="flip-coin" id="flipCoin">🪙</div>
-        </div>
-
-        <button class="buy" id="flipBtn" style="width:100%;padding:10px 12px;border-radius:12px;"
-                onclick="startFlip()">Крутить монетку</button>
-
-        <div class="result" id="flipResult"></div>
-      </div>
-    </div>
-
-    <!-- WHEEL -->
-    <div id="casinoWheel" class="view">
-      <div class="row">
-        <button class="back-btn" onclick="showCasinoView('menu')">← Назад</button>
-        <div class="small">x3 шанс 2.5%</div>
-      </div>
-
-      <div class="hr"></div>
-
-      <div class="panel">
-        <div class="row" style="margin-bottom:10px;">
-          <div style="font-weight:950;">🎡 Колесо фортуны</div>
-          <div class="small">ставка 1k–100M</div>
-        </div>
-
-        <div class="small" style="margin-bottom:6px;">Ставка:</div>
-        <input class="stake-input" id="stakeInputWheel" type="number" min="1000" max="100000000" step="1000" value="1000" />
-
-        <div class="quick">
-          <button onclick="setStake('W',1000)">1k</button>
-          <button onclick="setStake('W',10000)">10k</button>
-          <button onclick="setStake('W',100000)">100k</button>
-          <button onclick="setStake('W',1000000)">1M</button>
-          <button onclick="setStake('W',10000000)">10M</button>
-          <button onclick="setStake('W',100000000)">100M</button>
-        </div>
-
-        <div class="wheel-wrap">
-          <div class="pointer"></div>
-          <div class="wheel" id="wheel">
-            <div class="wheel-labels" aria-hidden="true">
-              <div class="wheel-label" style="transform:translate(-50%,-50%) rotate(30deg)  translate(78px) rotate(-30deg);">x2</div>
-              <div class="wheel-label" style="transform:translate(-50%,-50%) rotate(90deg)  translate(78px) rotate(-90deg);">x1</div>
-              <div class="wheel-label" style="transform:translate(-50%,-50%) rotate(150deg) translate(78px) rotate(-150deg);">x0.5</div>
-              <div class="wheel-label" style="transform:translate(-50%,-50%) rotate(210deg) translate(78px) rotate(-210deg);">x0.5</div>
-              <div class="wheel-label" style="transform:translate(-50%,-50%) rotate(270deg) translate(78px) rotate(-270deg);">💀</div>
-              <div class="wheel-label" style="transform:translate(-50%,-50%) rotate(330deg) translate(78px) rotate(-330deg);">x3</div>
-            </div>
-          </div>
-        </div>
-
-        <button class="buy" id="wheelBtn" style="width:100%;padding:10px 12px;border-radius:12px;"
-                onclick="spinWheel()">Крутить колесо</button>
-
-        <div class="result" id="wheelResult"></div>
-        <div class="small">Сектора: x2, x1, x0.5, x0.5, 💀(0), x3.</div>
-      </div>
-    </div>
-
-    <!-- BYTECOIN -->
-    <div id="casinoBytecoin" class="view">
-      <div class="row">
-        <button class="back-btn" onclick="showCasinoView('menu')">← Назад</button>
-        <div class="small">выведи до обвала</div>
-      </div>
-
-      <div class="hr"></div>
-
-      <div class="panel">
-        <div class="row" style="margin-bottom:10px;">
-          <div style="font-weight:950;">📈 Байткоин</div>
-          <div class="small">рост x? → риск обвала</div>
-        </div>
-
-        <div class="small" style="margin-bottom:6px;">Ставка (от 1k до 100M):</div>
-        <input class="stake-input" id="stakeInputBC" type="number" min="1000" max="100000000" step="1000" value="10000" />
-
-        <div class="quick">
-          <button onclick="setStake('BC',1000)">1k</button>
-          <button onclick="setStake('BC',10000)">10k</button>
-          <button onclick="setStake('BC',100000)">100k</button>
-          <button onclick="setStake('BC',1000000)">1M</button>
-          <button onclick="setStake('BC',10000000)">10M</button>
-          <button onclick="setStake('BC',100000000)">100M</button>
-        </div>
-
-        <div class="hr"></div>
-
-        <div id="bcMult" class="mult ok">x1.00</div>
-        <div class="small" style="text-align:center;">Нажми «Старт», потом «Вывести» когда захочешь.</div>
-
-        <div style="display:flex;gap:10px;margin-top:12px;">
-          <button class="buy" id="bcStartBtn" style="flex:1;" onclick="startBytecoin()">Старт</button>
-          <button class="buy" id="bcCashBtn" style="flex:1;" onclick="cashOutBytecoin()" disabled>Вывести</button>
-        </div>
-
-        <div class="result" id="bcResult"></div>
-        <div class="small">Если случится обвал — ставка сгорает, множитель падает к x1.</div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<script>
-/* ========= State ========= */
-let balance = 0;
-let clickPower = 1;
-
-let totalEarned = 0;     // сколько всего заработано (сумма всех плюсов)
-let casinoPlays = 0;     // сколько раз сыграли в казино
-let claimedMedals = {};  // { medalId: true }
-
-const STORAGE_KEY = "richTapok_v9";
-
-/* ========= Shop economy ========= */
-const ECON = {
-  growth: 1.6,
-  u1:  { basePrice: 500,  addPower: 1,  name: "+1 за тап" },
-  u3:  { basePrice: 1000, addPower: 3,  name: "+3 за тап" },
-  u5:  { basePrice: 3500, addPower: 5,  name: "+5 за тап" },
-  u10: { basePrice: 6000, addPower: 10, name: "+10 за тап" }
-};
-let lvl1 = 0, lvl3 = 0, lvl5 = 0, lvl10 = 0;
-
-/* ========= Codes ========= */
-const CODES = {
-  "rich-tapok": { rewardMoney: 5000, rewardTap: 0 }
-};
-let redeemedCodes = {}; // { code: true }
-
-/* ========= Donate packs (TG Stars) ========= */
-const DONATE_PACKS = {
-  "stars10": { stars: 10, money: 10_000_000 },
-  "stars20": { stars: 20, money: 22_000_000 },
-  "stars30": { stars: 30, money: 36_000_000 }
-};
-
-/* ========= Casino ========= */
-const CASINO = { min: 1000, max: 100000000 };
-
-/* Heads/Tails */
-let pickedSide = "H";
-let isFlipping = false;
-
-/* Wheel */
-let isSpinning = false;
-let wheelRotation = 0;
-
-const WHEEL_SEGMENTS = [
-  { label: "x2",  mult: 2 },
-  { label: "x1",  mult: 1 },
-  { label: "x0.5",mult: 0.5 },
-  { label: "x0.5",mult: 0.5 },
-  { label: "💀",  mult: 0 },
-  { label: "x3",  mult: 3 }
-];
-const WHEEL_WEIGHTS = [19.5, 19.5, 19.5, 19.5, 19.5, 2.5];
-
-/* Bytecoin */
-let bcActive = false;
-let bcStake = 0;
-let bcMult = 1.0;
-let bcTimer = null;
-let bcTicks = 0;
-
-/* ========= DOM ========= */
-const balanceEl = document.getElementById("balance");
-const coin = document.getElementById("coin");
-
-/* ========= Persistence ========= */
-function save(){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({
-    balance, clickPower,
-    lvl1, lvl3, lvl5, lvl10,
-    redeemedCodes,
-    totalEarned, casinoPlays,
-    claimedMedals,
-    wheelRotation
-  }));
-}
-
-function load(){
-  try{
-    const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if (!data) return;
-
-    if (typeof data.balance === "number") balance = data.balance;
-    if (typeof data.clickPower === "number") clickPower = data.clickPower;
-
-    if (typeof data.lvl1 === "number") lvl1 = data.lvl1;
-    if (typeof data.lvl3 === "number") lvl3 = data.lvl3;
-    if (typeof data.lvl5 === "number") lvl5 = data.lvl5;
-    if (typeof data.lvl10 === "number") lvl10 = data.lvl10;
-
-    if (data.redeemedCodes && typeof data.redeemedCodes === "object") redeemedCodes = data.redeemedCodes;
-
-    if (typeof data.totalEarned === "number") totalEarned = data.totalEarned;
-    if (typeof data.casinoPlays === "number") casinoPlays = data.casinoPlays;
-    if (data.claimedMedals && typeof data.claimedMedals === "object") claimedMedals = data.claimedMedals;
-
-    if (typeof data.wheelRotation === "number") wheelRotation = data.wheelRotation;
-  }catch(_){}
-}
-
-/* ========= Helpers ========= */
-function formatNumber(num){
-  num = Math.floor(num);
-  if (num < 1000) return num.toString();
-  if (num < 1_000_000) return (num / 1000).toFixed(1).replace(".0","") + "k";
-  if (num < 1_000_000_000) return (num / 1_000_000).toFixed(1).replace(".0","") + "M";
-  if (num < 1_000_000_000_000) return (num / 1_000_000_000).toFixed(1).replace(".0","") + "B";
-  return (num / 1_000_000_000_000).toFixed(1).replace(".0","") + "T";
-}
-
-function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
-function priceFor(base, level){ return Math.ceil(base * Math.pow(ECON.growth, level)); }
-
-function getUpgradeState(key){
-  if (key === "u1")  return { level:lvl1,  price:priceFor(ECON.u1.basePrice,  lvl1),  addPower:ECON.u1.addPower,  label:ECON.u1.name };
-  if (key === "u3")  return { level:lvl3,  price:priceFor(ECON.u3.basePrice,  lvl3),  addPower:ECON.u3.addPower,  label:ECON.u3.name };
-  if (key === "u5")  return { level:lvl5,  price:priceFor(ECON.u5.basePrice,  lvl5),  addPower:ECON.u5.addPower,  label:ECON.u5.name };
-  if (key === "u10") return { level:lvl10, price:priceFor(ECON.u10.basePrice, lvl10), addPower:ECON.u10.addPower, label:ECON.u10.name };
-  throw new Error("Unknown upgrade key");
-}
-
-function addBalance(amount, countAsEarned=true){
-  if (!Number.isFinite(amount)) return;
-  balance += amount;
-  if (countAsEarned && amount > 0) totalEarned += amount;
-}
-
-/* ========= UI ========= */
-function updateUI(){
-  balanceEl.textContent = formatNumber(balance);
-
-  // shop
-  const u1 = getUpgradeState("u1");
-  const u3 = getUpgradeState("u3");
-  const u5 = getUpgradeState("u5");
-  const u10 = getUpgradeState("u10");
-
-  document.getElementById("upgrade1Text").textContent  = `${u1.label} (Ур. ${u1.level}) • Цена: ${formatNumber(u1.price)}`;
-  document.getElementById("upgrade3Text").textContent  = `${u3.label} (Ур. ${u3.level}) • Цена: ${formatNumber(u3.price)}`;
-  document.getElementById("upgrade5Text").textContent  = `${u5.label} (Ур. ${u5.level}) • Цена: ${formatNumber(u5.price)}`;
-  document.getElementById("upgrade10Text").textContent = `${u10.label} (Ур. ${u10.level}) • Цена: ${formatNumber(u10.price)}`;
-
-  // medals stats
-  document.getElementById("stat_earned").textContent = formatNumber(totalEarned);
-  document.getElementById("stat_casino").textContent = casinoPlays.toString();
-  document.getElementById("stat_codes").textContent = Object.keys(redeemedCodes).length.toString();
-
-  refreshMedalsUI();
-
-  // restore wheel rotation visually
-  const wheel = document.getElementById("wheel");
-  if (wheel && Number.isFinite(wheelRotation)){
-    wheel.style.transform = `rotate(${wheelRotation}deg)`;
-  }
-}
-
-/* ========= Medals ========= */
-function canUnlockTapMillionaire(){ return totalEarned >= 1_000_000; }
-function canUnlockGambler(){ return casinoPlays >= 50; }
-function canUnlockNoPolice(){ return Object.keys(redeemedCodes).length >= 3; }
-
-function refreshMedalsUI(){
-  document.getElementById("m_million_meta").textContent =
-    `Нужно заработать 1,000,000 • Сейчас: ${formatNumber(totalEarned)}`;
-
-  document.getElementById("m_gambler_meta").textContent =
-    `Нужно сыграть 50 раз • Сейчас: ${casinoPlays}`;
-
-  document.getElementById("m_nopolice_meta").textContent =
-    `Нужно активировать 3 кода • Сейчас: ${Object.keys(redeemedCodes).length}`;
-
-  setMedalButton("tap_millionaire", canUnlockTapMillionaire());
-  setMedalButton("gambler50", canUnlockGambler());
-  setMedalButton("no_police", canUnlockNoPolice());
-}
-
-function setMedalButton(id, unlockable){
-  const map = {
-    "tap_millionaire":"m_million_btn",
-    "gambler50":"m_gambler_btn",
-    "no_police":"m_nopolice_btn"
-  };
-  const btn = document.getElementById(map[id]);
-  if (!btn) return;
-
-  if (claimedMedals[id]){
-    btn.textContent = "Получено";
-    btn.disabled = true;
-    return;
-  }
-  if (unlockable){
-    btn.textContent = "Забрать";
-    btn.disabled = false;
-  } else {
-    btn.textContent = "Закрыто";
-    btn.disabled = true;
-  }
-}
-
-function claimMedal(id){
-  if (claimedMedals[id]) return;
-
-  if (id === "tap_millionaire"){
-    if (!canUnlockTapMillionaire()) return;
-    clickPower += 2;
-  } else if (id === "gambler50"){
-    if (!canUnlockGambler()) return;
-    clickPower += 2;
-  } else if (id === "no_police"){
-    if (!canUnlockNoPolice()) return;
-    addBalance(15_000, true);
-    clickPower += 5;
-  } else return;
-
-  claimedMedals[id] = true;
-  updateUI();
-  save();
-  alert("Награда за медаль получена!");
-}
-
-/* ========= Modals/Nav ========= */
-const MODALS = ["medals","leaders","codes","shop","donate","casino"];
-function closeAllModals(){
-  MODALS.forEach(id => (document.getElementById(id).style.display = "none"));
-  document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-}
-function openModal(id, btnEl){
-  closeAllModals();
-  document.getElementById(id).style.display = "flex";
-  if (btnEl) btnEl.classList.add("active");
-
-  if (id === "casino"){
-    showCasinoView("menu");
-  }
-}
-function closeModal(id){
-  document.getElementById(id).style.display = "none";
-  document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-}
-
-/* ========= Tap ========= */
-coin.addEventListener("pointerdown", (e) => {
-  addBalance(clickPower, true);
-  updateUI();
-  save();
-
-  const plus = document.createElement("div");
-  plus.className = "floating";
-  plus.textContent = "+" + clickPower;
-
-  const rect = coin.getBoundingClientRect();
-  plus.style.left = (e.clientX - rect.left) + "px";
-  plus.style.top  = (e.clientY - rect.top)  + "px";
-
-  coin.appendChild(plus);
-  setTimeout(() => plus.remove(), 800);
-});
-
-/* ========= Shop ========= */
-function buyUpgrade(key){
-  const u = getUpgradeState(key);
-  if (balance < u.price){ alert("Недостаточно монет!"); return; }
-
-  balance -= u.price;
-  clickPower += u.addPower;
-
-  if (key === "u1") lvl1++;
-  if (key === "u3") lvl3++;
-  if (key === "u5") lvl5++;
-  if (key === "u10") lvl10++;
-
-  updateUI();
-  save();
-  alert("Прокачка куплена!");
-}
-
-/* ========= Codes ========= */
-function normalizeCode(s){ return (s||"").trim().toLowerCase(); }
-function setCodeMsg(text, ok){
-  const el = document.getElementById("codeMsg");
-  el.textContent = text;
-  el.style.color = ok ? "var(--ok)" : "var(--danger)";
-}
-function redeemCode(){
-  const input = document.getElementById("codeInput");
-  const code = normalizeCode(input.value);
-
-  if (!code){ setCodeMsg("Введи код.", false); return; }
-  if (!CODES[code]){ setCodeMsg("Неверный код.", false); return; }
-  if (redeemedCodes[code]){ setCodeMsg("Этот код уже активирован.", false); return; }
-
-  redeemedCodes[code] = true;
-
-  const rewardMoney = CODES[code].rewardMoney || 0;
-  const rewardTap = CODES[code].rewardTap || 0;
-
-  if (rewardMoney > 0) addBalance(rewardMoney, true);
-  if (rewardTap > 0) clickPower += rewardTap;
-
-  input.value = "";
-  setCodeMsg(`Код активирован! +${formatNumber(rewardMoney)}${rewardTap ? ` и +${rewardTap} за тап` : ""}`, true);
-
-  updateUI();
-  save();
-}
-
-/* ========= Donate (TG Stars) ========= */
-function tgBuyStarsPack(packId, onSuccess, onFail){
-  // ====== ВСТАВИТЬ СЮДА реальную покупку в боте/инвойс TG STARS ======
-  // Пример (мини-апп): Telegram.WebApp.openInvoice(invoiceLink, (status)=>{ ... })
-  // Тут — тестовая симуляция:
-  const ok = confirm("ТЕСТ: симулировать оплату Stars? (в реальном ТГ заменить на openInvoice)");
-  if (ok) onSuccess();
-  else onFail("cancelled");
-}
-
-function onDonatePack(packId){
-  if (!DONATE_PACKS[packId]) return;
-  tgBuyStarsPack(
-    packId,
-    () => grantDonation(packId),
-    () => alert("Покупка отменена/неуспешна.")
-  );
-}
-
-function grantDonation(packId){
-  const pack = DONATE_PACKS[packId];
-  if (!pack) return;
-
-  addBalance(pack.money, true);
-  updateUI();
-  save();
-  alert(`Успешно! +${formatNumber(pack.money)} монет.`);
-}
-
-/* ========= Casino menu switching ========= */
-function showCasinoView(which){
-  const menu = document.getElementById("casinoMenu");
-  const ht = document.getElementById("casinoHT");
-  const wheel = document.getElementById("casinoWheel");
-  const bc = document.getElementById("casinoBytecoin");
-
-  // stop bytecoin round if leaving view (to avoid hidden timer)
-  if (which !== "bytecoin") stopBytecoin(false);
-
-  menu.classList.remove("active");
-  ht.classList.remove("active");
-  wheel.classList.remove("active");
-  bc.classList.remove("active");
-
-  if (which === "menu") menu.classList.add("active");
-  if (which === "ht") ht.classList.add("active");
-  if (which === "wheel") wheel.classList.add("active");
-  if (which === "bytecoin") bc.classList.add("active");
-}
-
-/* ========= Casino: stake helpers ========= */
-function getStake(mode){
-  let inputId = "stakeInputHT";
-  if (mode === "W") inputId = "stakeInputWheel";
-  if (mode === "BC") inputId = "stakeInputBC";
-
-  const input = document.getElementById(inputId);
-  let v = Number(input.value);
-  if (!Number.isFinite(v)) v = CASINO.min;
-  v = Math.round(v / 1000) * 1000;
-  v = clamp(v, CASINO.min, CASINO.max);
-  input.value = v;
-  return v;
-}
-function setStake(mode, amount){
-  let inputId = "stakeInputHT";
-  if (mode === "W") inputId = "stakeInputWheel";
-  if (mode === "BC") inputId = "stakeInputBC";
-  const input = document.getElementById(inputId);
-  input.value = clamp(amount, CASINO.min, CASINO.max);
-}
-
-/* ========= Casino: Heads/Tails (biased 47/53) ========= */
-function pickSide(side){
-  if (isFlipping) return;
-  pickedSide = side;
-  document.getElementById("pickHeads").classList.toggle("active", side === "H");
-  document.getElementById("pickTails").classList.toggle("active", side === "T");
-}
-
-function startFlip(){
-  if (isFlipping) return;
-
-  const stake = getStake("HT");
-  const resultEl = document.getElementById("flipResult");
-  const btn = document.getElementById("flipBtn");
-  const flipCoin = document.getElementById("flipCoin");
-
-  if (balance < stake){
-    resultEl.className = "result bad";
-    resultEl.textContent = "Недостаточно монет для ставки!";
-    return;
-  }
-
-  casinoPlays++;
-  balance -= stake;
-  updateUI(); save();
-
-  isFlipping = true;
-  resultEl.className = "result";
-  resultEl.textContent = "Крутим...";
-  btn.disabled = true; btn.style.opacity = "0.7";
-  flipCoin.classList.add("flipping");
-
-  // ✅ 47% шанс на то, что игрок выбрал. 53% — на противоположное.
-  const win = Math.random() < 0.47;
-  const outcome = win ? pickedSide : (pickedSide === "H" ? "T" : "H");
-
-  setTimeout(() => {
-    flipCoin.classList.remove("flipping");
-
-    const outcomeText = outcome === "H" ? "Орёл" : "Решка";
-    const pickedText = pickedSide === "H" ? "Орёл" : "Решка";
-
-    if (outcome === pickedSide){
-      const returned = stake * 2;
-      addBalance(returned, true);
-      resultEl.className = "result ok";
-      resultEl.textContent = `${outcomeText}! Ты выбрал(а) ${pickedText}. WIN +${formatNumber(stake)} (x2)`;
-    } else {
-      resultEl.className = "result bad";
-      resultEl.textContent = `${outcomeText}... Ты выбрал(а) ${pickedText}. LOSE -${formatNumber(stake)}`;
-    }
-
-    updateUI(); save();
-    isFlipping = false;
-    btn.disabled = false; btn.style.opacity = "1";
-  }, 900);
-}
-
-/* ========= Casino: Wheel ========= */
-function weightedPickIndex(weights){
-  const total = weights.reduce((a,b)=>a+b,0);
-  let r = Math.random() * total;
-  for (let i=0;i<weights.length;i++){
-    r -= weights[i];
-    if (r <= 0) return i;
-  }
-  return weights.length - 1;
-}
-function targetRotationForIndex(index){
-  const segmentSize = 60;
-  const centerAngle = index * segmentSize + segmentSize/2;
-  return 360 - centerAngle;
-}
-function spinWheel(){
-  if (isSpinning) return;
-
-  const stake = getStake("W");
-  const resultEl = document.getElementById("wheelResult");
-  const btn = document.getElementById("wheelBtn");
-  const wheel = document.getElementById("wheel");
-
-  if (balance < stake){
-    resultEl.className = "result bad";
-    resultEl.textContent = "Недостаточно монет для ставки!";
-    return;
-  }
-
-  casinoPlays++;
-  balance -= stake;
-  updateUI(); save();
-
-  isSpinning = true;
-  btn.disabled = true; btn.style.opacity = "0.7";
-  resultEl.className = "result";
-  resultEl.textContent = "Крутим колесо...";
-
-  const idx = weightedPickIndex(WHEEL_WEIGHTS);
-  const seg = WHEEL_SEGMENTS[idx];
-
-  const baseTarget = targetRotationForIndex(idx);
-  const extraSpins = 6 + Math.floor(Math.random()*3);
-  const finalRotation = wheelRotation + extraSpins*360 + baseTarget;
-
-  wheelRotation = finalRotation;
-  wheel.style.transform = `rotate(${finalRotation}deg)`;
-
-  setTimeout(() => {
-    const returned = Math.floor(stake * seg.mult);
-    if (returned > 0) addBalance(returned, true);
-
-    if (seg.mult > 1){
-      const profit = returned - stake;
-      resultEl.className = "result ok";
-      resultEl.textContent = `${seg.label}! WIN +${formatNumber(profit)} (x${seg.mult})`;
-    } else if (seg.mult === 1){
-      resultEl.className = "result ok";
-      resultEl.textContent = `${seg.label}! Ничья: ставка возвращена.`;
-    } else if (seg.mult > 0){
-      const loss = stake - returned;
-      resultEl.className = "result bad";
-      resultEl.textContent = `${seg.label}! LOSE -${formatNumber(loss)} (потеря части ставки)`;
-    } else {
-      resultEl.className = "result bad";
-      resultEl.textContent = `💀 LOSE -${formatNumber(stake)} (всё сгорело)`;
-    }
-
-    updateUI(); save();
-    isSpinning = false;
-    btn.disabled = false; btn.style.opacity = "1";
-  }, 1300);
-}
-
-/* ========= Casino: Bytecoin ========= */
-function renderBC(){
-  const multEl = document.getElementById("bcMult");
-  multEl.textContent = `x${bcMult.toFixed(2)}`;
-}
-function setBCState(active){
-  const startBtn = document.getElementById("bcStartBtn");
-  const cashBtn = document.getElementById("bcCashBtn");
-  startBtn.disabled = active;
-  cashBtn.disabled = !active;
-  startBtn.style.opacity = active ? "0.6" : "1";
-  cashBtn.style.opacity = active ? "1" : "0.6";
-}
-function bcSetResult(text, ok){
-  const el = document.getElementById("bcResult");
-  el.className = "result " + (ok ? "ok" : "bad");
-  el.textContent = text || "";
-}
-function bcSetMultColor(isCrash){
-  const el = document.getElementById("bcMult");
-  el.classList.remove("ok","bad");
-  el.classList.add(isCrash ? "bad" : "ok");
-}
-
-function startBytecoin(){
-  if (bcActive) return;
-
-  const stake = getStake("BC");
-  if (balance < stake){
-    bcSetResult("Недостаточно монет для ставки!", false);
-    return;
-  }
-
-  casinoPlays++;
-  balance -= stake;
-  bcStake = stake;
-  bcMult = 1.0;
-  bcTicks = 0;
-  bcActive = true;
-
-  bcSetMultColor(false);
-  bcSetResult("Рынок растёт... успей вывести!", true);
-  renderBC();
-  setBCState(true);
-
-  updateUI(); save();
-
-  // тики каждые 120мс
-  bcTimer = setInterval(() => {
-    if (!bcActive) return;
-
-    bcTicks++;<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Богатый тапок</title>
-
-<style>
-:root{
-  --bg:#0f1115;
-  --card:#1a1d24;
-  --gold1:#ffd700;
-  --gold2:#ff9f1c;
-  --text:#ffffff;
-  --muted:#999;
-  --danger:#ff4d4d;
-  --ok:#4dff8a;
-}
-
-*{box-sizing:border-box;}
+html,body{height:100%;}
 
 body{
   margin:0;
@@ -1421,7 +127,7 @@ body{
 }
 .nav-btn.active{color:var(--gold1);}
 
-/* modals + scroll */
+/* modals + scroll (важно для TG) */
 .modal{
   position:fixed;
   inset:0;
@@ -1485,7 +191,7 @@ button.buy{
 }
 button.buy[disabled]{opacity:.55;cursor:not-allowed;}
 
-.code-input{
+.code-input,.stake-input{
   width:100%;
   padding:10px 12px;
   border-radius:10px;
@@ -1508,16 +214,6 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
   gap:10px;
   align-items:center;
   justify-content:space-between;
-}
-.stake-input{
-  width:100%;
-  padding:10px 12px;
-  border-radius:10px;
-  border:1px solid #333;
-  background:#15171c;
-  color:var(--text);
-  outline:none;
-  font-size:14px;
 }
 .quick{
   display:flex;
@@ -1542,6 +238,37 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
 }
 .result.ok{color:var(--ok);}
 .result.bad{color:var(--danger);}
+
+/* Casino menu */
+.menu-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+}
+.menu-btn{
+  width:100%;
+  background:#15171c;
+  border:1px solid #333;
+  color:var(--text);
+  padding:12px 12px;
+  border-radius:12px;
+  cursor:pointer;
+  text-align:left;
+}
+.menu-title{font-weight:950;}
+.menu-sub{font-size:12px;color:var(--muted);margin-top:4px;}
+.menu-btn.locked{opacity:.6;cursor:not-allowed;}
+.back-btn{
+  background:#15171c;
+  border:1px solid #333;
+  color:var(--text);
+  padding:8px 10px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:900;
+}
+.view{display:none;}
+.view.active{display:block;}
 
 /* Heads/Tails */
 .choice-wrap{display:flex;gap:10px;}
@@ -1575,48 +302,6 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
   100%{transform:rotateY(1440deg) rotateX(360deg) scale(1)}
 }
 
-/* Casino menu */
-.menu-grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:10px;
-}
-.menu-btn{
-  width:100%;
-  background:#15171c;
-  border:1px solid #333;
-  color:var(--text);
-  padding:12px 12px;
-  border-radius:12px;
-  cursor:pointer;
-  text-align:left;
-}
-.menu-btn:active{transform:scale(.99);}
-.menu-title{font-weight:950;}
-.menu-sub{font-size:12px;color:var(--muted);margin-top:4px;}
-.menu-btn.locked{opacity:.6;cursor:not-allowed;}
-.back-btn{
-  background:#15171c;
-  border:1px solid #333;
-  color:var(--text);
-  padding:8px 10px;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:900;
-}
-.view{display:none;}
-.view.active{display:block;}
-
-/* Bytecoin */
-.mult{
-  font-size:28px;
-  font-weight:1000;
-  text-align:center;
-  margin:8px 0 6px 0;
-}
-.mult.ok{color:var(--ok);}
-.mult.bad{color:var(--danger);}
-
 /* Slots */
 .slots-wrap{
   display:flex;
@@ -1648,12 +333,22 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
   box-shadow:0 0 0 2px rgba(255,215,0,.35) inset, 0 10px 26px rgba(255,215,0,.18);
   border-color:rgba(255,215,0,.6);
 }
+
+/* Bytecoin */
+.mult{
+  font-size:28px;
+  font-weight:1000;
+  text-align:center;
+  margin:8px 0 6px 0;
+}
+.mult.ok{color:var(--ok);}
+.mult.bad{color:var(--danger);}
 </style>
 </head>
 
 <body>
 
-<div class="medal-btn" onclick="openModal('medals', null)"><span>🏅</span></div>
+<div class="medal-btn" id="btnMedals"><span>🏅</span></div>
 
 <div class="container">
   <div class="balance" id="balance">0</div>
@@ -1661,17 +356,17 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
 </div>
 
 <div class="navbar">
-  <button class="nav-btn" onclick="openModal('leaders', this)">Лидеры</button>
-  <button class="nav-btn" onclick="openModal('codes', this)">Коды</button>
-  <button class="nav-btn" onclick="openModal('shop', this)">Магазин</button>
-  <button class="nav-btn" onclick="openModal('donate', this)">Донат</button>
-  <button class="nav-btn" onclick="openModal('casino', this)">Казино</button>
+  <button class="nav-btn" id="navLeaders">Лидеры</button>
+  <button class="nav-btn" id="navCodes">Коды</button>
+  <button class="nav-btn" id="navShop">Магазин</button>
+  <button class="nav-btn" id="navDonate">Донат</button>
+  <button class="nav-btn" id="navCasino">Казино</button>
 </div>
 
 <!-- Медали -->
 <div class="modal" id="medals">
   <div class="modal-content">
-    <div class="close" onclick="closeModal('medals')">✖</div>
+    <div class="close" data-close="medals">✖</div>
     <h2>🏅 Медали</h2>
     <div class="small">Открывай медали и забирай награды (каждую — 1 раз).</div>
     <div class="hr"></div>
@@ -1682,7 +377,7 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
         <div class="medal-meta" id="m_million_meta">Нужно заработать 1,000,000</div>
         <div class="medal-meta">Награда: +2 за тап</div>
       </div>
-      <button class="buy" id="m_million_btn" onclick="claimMedal('tap_millionaire')">Забрать</button>
+      <button class="buy" id="m_million_btn">Забрать</button>
     </div>
 
     <div class="medal-item">
@@ -1691,7 +386,7 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
         <div class="medal-meta" id="m_gambler_meta">Нужно сыграть 50 раз в казино</div>
         <div class="medal-meta">Награда: +2 за тап</div>
       </div>
-      <button class="buy" id="m_gambler_btn" onclick="claimMedal('gambler50')">Забрать</button>
+      <button class="buy" id="m_gambler_btn">Забрать</button>
     </div>
 
     <div class="medal-item">
@@ -1700,7 +395,7 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
         <div class="medal-meta" id="m_nopolice_meta">Нужно активировать 3 кода</div>
         <div class="medal-meta">Награда: +15k денег и +5 за тап</div>
       </div>
-      <button class="buy" id="m_nopolice_btn" onclick="claimMedal('no_police')">Забрать</button>
+      <button class="buy" id="m_nopolice_btn">Забрать</button>
     </div>
 
     <div class="hr"></div>
@@ -1713,7 +408,7 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
 <!-- Лидеры -->
 <div class="modal" id="leaders">
   <div class="modal-content">
-    <div class="close" onclick="closeModal('leaders')">✖</div>
+    <div class="close" data-close="leaders">✖</div>
     <h2>🏆 Лидеры</h2>
     <p>1. TapMaster — 12M</p>
     <p>2. GoldenFoot — 8.5M</p>
@@ -1724,14 +419,13 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
 <!-- Коды -->
 <div class="modal" id="codes">
   <div class="modal-content">
-    <div class="close" onclick="closeModal('codes')">✖</div>
+    <div class="close" data-close="codes">✖</div>
     <h2>🎁 Коды</h2>
     <div class="small">Введи промокод (каждый код можно активировать только 1 раз).</div>
     <div class="hr"></div>
 
-    <!-- ✅ только поле + кнопка, никаких подсказок с кодами -->
     <input class="code-input" id="codeInput" type="text" placeholder="Введите код" autocomplete="off" />
-    <button class="buy code-btn" onclick="redeemCode()">Активировать</button>
+    <button class="buy code-btn" id="btnRedeem">Активировать</button>
 
     <div class="small" id="codeMsg" style="margin-top:10px;"></div>
   </div>
@@ -1740,27 +434,27 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
 <!-- Магазин -->
 <div class="modal" id="shop">
   <div class="modal-content">
-    <div class="close" onclick="closeModal('shop')">✖</div>
+    <div class="close" data-close="shop">✖</div>
     <h2>🛒 Магазин</h2>
 
     <div class="shop-item">
       <span id="upgrade1Text"></span>
-      <button class="buy" onclick="buyUpgrade('u1')">Купить</button>
+      <button class="buy" id="buyU1">Купить</button>
     </div>
 
     <div class="shop-item">
       <span id="upgrade3Text"></span>
-      <button class="buy" onclick="buyUpgrade('u3')">Купить</button>
+      <button class="buy" id="buyU3">Купить</button>
     </div>
 
     <div class="shop-item">
       <span id="upgrade5Text"></span>
-      <button class="buy" onclick="buyUpgrade('u5')">Купить</button>
+      <button class="buy" id="buyU5">Купить</button>
     </div>
 
     <div class="shop-item">
       <span id="upgrade10Text"></span>
-      <button class="buy" onclick="buyUpgrade('u10')">Купить</button>
+      <button class="buy" id="buyU10">Купить</button>
     </div>
 
     <div class="small">Цена растёт по формуле: base × 1.6^уровень</div>
@@ -1770,31 +464,33 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
 <!-- Донат -->
 <div class="modal" id="donate">
   <div class="modal-content">
-    <div class="close" onclick="closeModal('donate')">✖</div>
+    <div class="close" data-close="donate">✖</div>
     <h2>⭐ Донат (Telegram Stars)</h2>
 
     <div class="small">
-      Это “реальная” схема под Telegram Stars для Mini App:
-      <br>1) Mini App вызывает твой бекенд <b>/create-invoice</b> и получает <b>invoice_link</b>
-      <br>2) Mini App открывает оплату через <b>Telegram.WebApp.openInvoice</b>
-      <br>3) После статуса <b>paid</b> — выдаём монеты (и желательно дополнительно подтверждаем на бекенде)
+      ✅ Рабочая схема для Telegram Mini App:
+      <br>1) Mini App делает POST <b>/api/create-invoice</b> → получает <b>invoiceLink</b>
+      <br>2) Вызываем <b>Telegram.WebApp.openInvoice(invoiceLink)</b>
+      <br>3) На <b>paid</b> делаем POST <b>/api/confirm-payment</b>, и только потом начисляем монеты.
+      <br><br>
+      ⚠️ Если у тебя пока нет API на Vercel — кнопки доната покажут ошибку (это нормально).
     </div>
 
     <div class="hr"></div>
 
     <div class="donate-item">
       <span>10 ⭐ = 10 000 000</span>
-      <button class="buy" onclick="buyStarsPack('stars10')">Купить</button>
+      <button class="buy" id="don10">Купить</button>
     </div>
 
     <div class="donate-item">
       <span>20 ⭐ = 22 000 000</span>
-      <button class="buy" onclick="buyStarsPack('stars20')">Купить</button>
+      <button class="buy" id="don20">Купить</button>
     </div>
 
     <div class="donate-item">
       <span>30 ⭐ = 36 000 000</span>
-      <button class="buy" onclick="buyStarsPack('stars30')">Купить</button>
+      <button class="buy" id="don30">Купить</button>
     </div>
 
     <div class="hr"></div>
@@ -1805,7 +501,7 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
 <!-- Казино -->
 <div class="modal" id="casino">
   <div class="modal-content">
-    <div class="close" onclick="closeModal('casino')">✖</div>
+    <div class="close" data-close="casino">✖</div>
     <h2>🎰 Казино</h2>
 
     <!-- MENU -->
@@ -1814,17 +510,17 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
       <div class="hr"></div>
 
       <div class="menu-grid">
-        <button class="menu-btn" onclick="showCasinoView('ht')">
+        <button class="menu-btn" id="goHT">
           <div class="menu-title">🪙 Орёл / Решка</div>
           <div class="menu-sub">Удвоение ставки при победе (x2)</div>
         </button>
 
-        <button class="menu-btn" onclick="showCasinoView('slots')">
+        <button class="menu-btn" id="goSlots">
           <div class="menu-title">🎰 Слоты</div>
-          <div class="menu-sub">3 барабана • 2 одинаковых = x2 • 3 одинаковых = x5 • джекпот = x25</div>
+          <div class="menu-sub">2 одинаковых = x2 • 3 одинаковых = x5 • 💎💎💎 = x25</div>
         </button>
 
-        <button class="menu-btn" onclick="showCasinoView('bytecoin')">
+        <button class="menu-btn" id="goBC">
           <div class="menu-title">📈 Байткоин</div>
           <div class="menu-sub">Множитель растёт — успей вывести до обвала</div>
         </button>
@@ -1836,10 +532,10 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
       </div>
     </div>
 
-    <!-- HEADS/TAILS -->
+    <!-- Heads/Tails -->
     <div id="casinoHT" class="view">
       <div class="row">
-        <button class="back-btn" onclick="showCasinoView('menu')">← Назад</button>
+        <button class="back-btn" id="backHT">← Назад</button>
         <div class="small">x2 при победе</div>
       </div>
 
@@ -1855,37 +551,35 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
         <input class="stake-input" id="stakeInputHT" type="number" min="1000" max="100000000" step="1000" value="1000" />
 
         <div class="quick">
-          <button onclick="setStake('HT',1000)">1k</button>
-          <button onclick="setStake('HT',10000)">10k</button>
-          <button onclick="setStake('HT',100000)">100k</button>
-          <button onclick="setStake('HT',1000000)">1M</button>
-          <button onclick="setStake('HT',10000000)">10M</button>
-          <button onclick="setStake('HT',100000000)">100M</button>
+          <button data-stake="HT" data-val="1000">1k</button>
+          <button data-stake="HT" data-val="10000">10k</button>
+          <button data-stake="HT" data-val="100000">100k</button>
+          <button data-stake="HT" data-val="1000000">1M</button>
+          <button data-stake="HT" data-val="10000000">10M</button>
+          <button data-stake="HT" data-val="100000000">100M</button>
         </div>
 
         <div class="hr"></div>
 
         <div class="small" style="margin-bottom:6px;">Выбор:</div>
         <div class="choice-wrap">
-          <button class="choice active" id="pickHeads" onclick="pickSide('H')">Орёл</button>
-          <button class="choice" id="pickTails" onclick="pickSide('T')">Решка</button>
+          <button class="choice active" id="pickHeads">Орёл</button>
+          <button class="choice" id="pickTails">Решка</button>
         </div>
 
         <div class="flip-area">
           <div class="flip-coin" id="flipCoin">🪙</div>
         </div>
 
-        <button class="buy" id="flipBtn" style="width:100%;padding:10px 12px;border-radius:12px;"
-                onclick="startFlip()">Крутить</button>
-
+        <button class="buy" id="flipBtn" style="width:100%;padding:10px 12px;border-radius:12px;">Крутить</button>
         <div class="result" id="flipResult"></div>
       </div>
     </div>
 
-    <!-- SLOTS -->
+    <!-- Slots -->
     <div id="casinoSlots" class="view">
       <div class="row">
-        <button class="back-btn" onclick="showCasinoView('menu')">← Назад</button>
+        <button class="back-btn" id="backSlots">← Назад</button>
         <div class="small">3 барабана</div>
       </div>
 
@@ -1901,12 +595,12 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
         <input class="stake-input" id="stakeInputSlots" type="number" min="1000" max="100000000" step="1000" value="1000" />
 
         <div class="quick">
-          <button onclick="setStake('S',1000)">1k</button>
-          <button onclick="setStake('S',10000)">10k</button>
-          <button onclick="setStake('S',100000)">100k</button>
-          <button onclick="setStake('S',1000000)">1M</button>
-          <button onclick="setStake('S',10000000)">10M</button>
-          <button onclick="setStake('S',100000000)">100M</button>
+          <button data-stake="S" data-val="1000">1k</button>
+          <button data-stake="S" data-val="10000">10k</button>
+          <button data-stake="S" data-val="100000">100k</button>
+          <button data-stake="S" data-val="1000000">1M</button>
+          <button data-stake="S" data-val="10000000">10M</button>
+          <button data-stake="S" data-val="100000000">100M</button>
         </div>
 
         <div class="slots-wrap">
@@ -1915,20 +609,19 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
           <div class="reel" id="reel3">❔</div>
         </div>
 
-        <button class="buy" id="slotsBtn" style="width:100%;padding:10px 12px;border-radius:12px;"
-                onclick="spinSlots()">SPIN</button>
-
+        <button class="buy" id="slotsBtn" style="width:100%;padding:10px 12px;border-radius:12px;">SPIN</button>
         <div class="result" id="slotsResult"></div>
+
         <div class="small" style="margin-top:8px;">
           Выплаты: 2 одинаковых = x2, 3 одинаковых = x5, <b>💎💎💎</b> = x25.
         </div>
       </div>
     </div>
 
-    <!-- BYTECOIN -->
+    <!-- Bytecoin -->
     <div id="casinoBytecoin" class="view">
       <div class="row">
-        <button class="back-btn" onclick="showCasinoView('menu')">← Назад</button>
+        <button class="back-btn" id="backBC">← Назад</button>
         <div class="small">выведи до обвала</div>
       </div>
 
@@ -1940,16 +633,16 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
           <div class="small">рост x? → риск обвала</div>
         </div>
 
-        <div class="small" style="margin-bottom:6px;">Ставка (от 1k до 100M):</div>
+        <div class="small" style="margin-bottom:6px;">Ставка:</div>
         <input class="stake-input" id="stakeInputBC" type="number" min="1000" max="100000000" step="1000" value="10000" />
 
         <div class="quick">
-          <button onclick="setStake('BC',1000)">1k</button>
-          <button onclick="setStake('BC',10000)">10k</button>
-          <button onclick="setStake('BC',100000)">100k</button>
-          <button onclick="setStake('BC',1000000)">1M</button>
-          <button onclick="setStake('BC',10000000)">10M</button>
-          <button onclick="setStake('BC',100000000)">100M</button>
+          <button data-stake="BC" data-val="1000">1k</button>
+          <button data-stake="BC" data-val="10000">10k</button>
+          <button data-stake="BC" data-val="100000">100k</button>
+          <button data-stake="BC" data-val="1000000">1M</button>
+          <button data-stake="BC" data-val="10000000">10M</button>
+          <button data-stake="BC" data-val="100000000">100M</button>
         </div>
 
         <div class="hr"></div>
@@ -1958,8 +651,8 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
         <div class="small" style="text-align:center;">Нажми «Старт», потом «Вывести» когда захочешь.</div>
 
         <div style="display:flex;gap:10px;margin-top:12px;">
-          <button class="buy" id="bcStartBtn" style="flex:1;" onclick="startBytecoin()">Старт</button>
-          <button class="buy" id="bcCashBtn" style="flex:1;" onclick="cashOutBytecoin()" disabled>Вывести</button>
+          <button class="buy" id="bcStartBtn" style="flex:1;">Старт</button>
+          <button class="buy" id="bcCashBtn" style="flex:1;" disabled>Вывести</button>
         </div>
 
         <div class="result" id="bcResult"></div>
@@ -1971,727 +664,847 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
 </div>
 
 <script>
-/* ========= CONFIG: backend for Telegram Stars =========
-   Тебе нужен бекенд (бот-сервер), который создаёт инвойсы Stars и подтверждает оплату.
-   1) POST {BACKEND_URL}/create-invoice  body: { packId, initData }
-      -> { invoiceLink }  (строка для Telegram.WebApp.openInvoice)
-   2) (рекомендуется) POST {BACKEND_URL}/confirm-payment body:{ packId, initData, status }
-      -> { ok:true }   (или подтверждение по payload/transaction)
-
-   initData — это Telegram.WebApp.initData (подпись от Telegram).
+/*
+  ✅ TG-safe версия (ES5): без optional chaining, без 1_000_000, без стрелок.
+  Чтобы донат реально работал, на Vercel добавь API:
+  - POST /api/create-invoice  -> { invoiceLink: "..." }
+  - POST /api/confirm-payment -> { ok: true }
+  (эти эндпоинты должны создавать/подтверждать оплату Stars на стороне бота/сервера)
 */
-const BACKEND_URL = "https://YOUR-DOMAIN.TLD"; // <-- ВСТАВЬ СВОЙ ДОМЕН/URL БЕКЕНДА
 
-/* ========= State ========= */
-let balance = 0;
-let clickPower = 1;
+(function(){
+  /* ======== State ======== */
+  var STORAGE_KEY = "richTapok_TGSAFE_v1";
 
-let totalEarned = 0;
-let casinoPlays = 0;
-let claimedMedals = {};
+  var balance = 0;
+  var clickPower = 1;
 
-const STORAGE_KEY = "richTapok_v10";
+  var totalEarned = 0;
+  var casinoPlays = 0;
+  var claimedMedals = {};  // {id:true}
+  var redeemedCodes = {};  // {code:true}
 
-/* ========= Shop economy ========= */
-const ECON = {
-  growth: 1.6,
-  u1:  { basePrice: 500,  addPower: 1,  name: "+1 за тап" },
-  u3:  { basePrice: 1000, addPower: 3,  name: "+3 за тап" },
-  u5:  { basePrice: 3500, addPower: 5,  name: "+5 за тап" },
-  u10: { basePrice: 6000, addPower: 10, name: "+10 за тап" }
-};
-let lvl1 = 0, lvl3 = 0, lvl5 = 0, lvl10 = 0;
-
-/* ========= Codes ========= */
-const CODES = { "rich-tapok": { rewardMoney: 5000, rewardTap: 0 } };
-let redeemedCodes = {};
-
-/* ========= Donate packs ========= */
-const DONATE_PACKS = {
-  "stars10": { stars: 10, money: 10_000_000 },
-  "stars20": { stars: 20, money: 22_000_000 },
-  "stars30": { stars: 30, money: 36_000_000 }
-};
-
-/* ========= Casino ========= */
-const CASINO = { min: 1000, max: 100000000 };
-
-/* Heads/Tails */
-let pickedSide = "H";
-let isFlipping = false;
-
-/* Slots */
-const SLOT_SYMBOLS = ["👟","💎","🍒","🍋","⭐","7️⃣","💰","🔥"];
-let slotsSpinning = false;
-
-/* Bytecoin */
-let bcActive = false;
-let bcStake = 0;
-let bcMult = 1.0;
-let bcTimer = null;
-let bcTicks = 0;
-
-/* ========= DOM ========= */
-const balanceEl = document.getElementById("balance");
-const coin = document.getElementById("coin");
-
-/* ========= Persistence ========= */
-function save(){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({
-    balance, clickPower,
-    lvl1, lvl3, lvl5, lvl10,
-    redeemedCodes,
-    totalEarned, casinoPlays,
-    claimedMedals
-  }));
-}
-function load(){
-  try{
-    const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if (!data) return;
-
-    if (typeof data.balance === "number") balance = data.balance;
-    if (typeof data.clickPower === "number") clickPower = data.clickPower;
-
-    if (typeof data.lvl1 === "number") lvl1 = data.lvl1;
-    if (typeof data.lvl3 === "number") lvl3 = data.lvl3;
-    if (typeof data.lvl5 === "number") lvl5 = data.lvl5;
-    if (typeof data.lvl10 === "number") lvl10 = data.lvl10;
-
-    if (data.redeemedCodes && typeof data.redeemedCodes === "object") redeemedCodes = data.redeemedCodes;
-
-    if (typeof data.totalEarned === "number") totalEarned = data.totalEarned;
-    if (typeof data.casinoPlays === "number") casinoPlays = data.casinoPlays;
-
-    if (data.claimedMedals && typeof data.claimedMedals === "object") claimedMedals = data.claimedMedals;
-  }catch(_){}
-}
-
-/* ========= Helpers ========= */
-function formatNumber(num){
-  num = Math.floor(num);
-  if (num < 1000) return num.toString();
-  if (num < 1_000_000) return (num / 1000).toFixed(1).replace(".0","") + "k";
-  if (num < 1_000_000_000) return (num / 1_000_000).toFixed(1).replace(".0","") + "M";
-  if (num < 1_000_000_000_000) return (num / 1_000_000_000).toFixed(1).replace(".0","") + "B";
-  return (num / 1_000_000_000_000).toFixed(1).replace(".0","") + "T";
-}
-function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
-function priceFor(base, level){ return Math.ceil(base * Math.pow(ECON.growth, level)); }
-
-function getUpgradeState(key){
-  if (key === "u1")  return { level:lvl1,  price:priceFor(ECON.u1.basePrice,  lvl1),  addPower:ECON.u1.addPower,  label:ECON.u1.name };
-  if (key === "u3")  return { level:lvl3,  price:priceFor(ECON.u3.basePrice,  lvl3),  addPower:ECON.u3.addPower,  label:ECON.u3.name };
-  if (key === "u5")  return { level:lvl5,  price:priceFor(ECON.u5.basePrice,  lvl5),  addPower:ECON.u5.addPower,  label:ECON.u5.name };
-  if (key === "u10") return { level:lvl10, price:priceFor(ECON.u10.basePrice, lvl10), addPower:ECON.u10.addPower, label:ECON.u10.name };
-  throw new Error("Unknown upgrade key");
-}
-
-function addBalance(amount, countAsEarned=true){
-  if (!Number.isFinite(amount)) return;
-  balance += amount;
-  if (countAsEarned && amount > 0) totalEarned += amount;
-}
-
-/* ========= UI ========= */
-function updateUI(){
-  balanceEl.textContent = formatNumber(balance);
-
-  const u1 = getUpgradeState("u1");
-  const u3 = getUpgradeState("u3");
-  const u5 = getUpgradeState("u5");
-  const u10 = getUpgradeState("u10");
-
-  document.getElementById("upgrade1Text").textContent  = `${u1.label} (Ур. ${u1.level}) • Цена: ${formatNumber(u1.price)}`;
-  document.getElementById("upgrade3Text").textContent  = `${u3.label} (Ур. ${u3.level}) • Цена: ${formatNumber(u3.price)}`;
-  document.getElementById("upgrade5Text").textContent  = `${u5.label} (Ур. ${u5.level}) • Цена: ${formatNumber(u5.price)}`;
-  document.getElementById("upgrade10Text").textContent = `${u10.label} (Ур. ${u10.level}) • Цена: ${formatNumber(u10.price)}`;
-
-  document.getElementById("stat_earned").textContent = formatNumber(totalEarned);
-  document.getElementById("stat_casino").textContent = casinoPlays.toString();
-  document.getElementById("stat_codes").textContent = Object.keys(redeemedCodes).length.toString();
-
-  refreshMedalsUI();
-}
-
-/* ========= Medals ========= */
-function canUnlockTapMillionaire(){ return totalEarned >= 1_000_000; }
-function canUnlockGambler(){ return casinoPlays >= 50; }
-function canUnlockNoPolice(){ return Object.keys(redeemedCodes).length >= 3; }
-
-function refreshMedalsUI(){
-  document.getElementById("m_million_meta").textContent =
-    `Нужно заработать 1,000,000 • Сейчас: ${formatNumber(totalEarned)}`;
-  document.getElementById("m_gambler_meta").textContent =
-    `Нужно сыграть 50 раз в казино • Сейчас: ${casinoPlays}`;
-  document.getElementById("m_nopolice_meta").textContent =
-    `Нужно активировать 3 кода • Сейчас: ${Object.keys(redeemedCodes).length}`;
-
-  setMedalButton("tap_millionaire", canUnlockTapMillionaire());
-  setMedalButton("gambler50", canUnlockGambler());
-  setMedalButton("no_police", canUnlockNoPolice());
-}
-function setMedalButton(id, unlockable){
-  const map = {
-    "tap_millionaire":"m_million_btn",
-    "gambler50":"m_gambler_btn",
-    "no_police":"m_nopolice_btn"
+  /* ======== Shop ======== */
+  var ECON = {
+    growth: 1.6,
+    u1:  { basePrice: 500,  addPower: 1,  name: "+1 за тап" },
+    u3:  { basePrice: 1000, addPower: 3,  name: "+3 за тап" },
+    u5:  { basePrice: 3500, addPower: 5,  name: "+5 за тап" },
+    u10: { basePrice: 6000, addPower: 10, name: "+10 за тап" }
   };
-  const btn = document.getElementById(map[id]);
-  if (!btn) return;
+  var lvl1 = 0, lvl3 = 0, lvl5 = 0, lvl10 = 0;
 
-  if (claimedMedals[id]){
-    btn.textContent = "Получено";
-    btn.disabled = true;
-    return;
-  }
-  if (unlockable){
-    btn.textContent = "Забрать";
-    btn.disabled = false;
-  } else {
-    btn.textContent = "Закрыто";
-    btn.disabled = true;
-  }
-}
-function claimMedal(id){
-  if (claimedMedals[id]) return;
+  /* ======== Codes ======== */
+  var CODES = {
+    "rich-tapok": { rewardMoney: 5000, rewardTap: 0 }
+  };
 
-  if (id === "tap_millionaire"){
-    if (!canUnlockTapMillionaire()) return;
-    clickPower += 2;
-  } else if (id === "gambler50"){
-    if (!canUnlockGambler()) return;
-    clickPower += 2;
-  } else if (id === "no_police"){
-    if (!canUnlockNoPolice()) return;
-    addBalance(15_000, true);
-    clickPower += 5;
-  } else return;
+  /* ======== Donate Packs ======== */
+  var DONATE_PACKS = {
+    "stars10": { stars: 10, money: 10000000 },
+    "stars20": { stars: 20, money: 22000000 },
+    "stars30": { stars: 30, money: 36000000 }
+  };
 
-  claimedMedals[id] = true;
-  updateUI();
-  save();
-  alert("Награда за медаль получена!");
-}
+  /* ======== Casino ======== */
+  var CASINO_MIN = 1000;
+  var CASINO_MAX = 100000000;
 
-/* ========= Modals/Nav ========= */
-const MODALS = ["medals","leaders","codes","shop","donate","casino"];
-function closeAllModals(){
-  MODALS.forEach(id => (document.getElementById(id).style.display = "none"));
-  document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-}
-function openModal(id, btnEl){
-  closeAllModals();
-  document.getElementById(id).style.display = "flex";
-  if (btnEl) btnEl.classList.add("active");
-  if (id === "casino") showCasinoView("menu");
-}
-function closeModal(id){
-  document.getElementById(id).style.display = "none";
-  document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-}
+  // Heads/Tails
+  var pickedSide = "H";
+  var isFlipping = false;
 
-/* ========= Tap ========= */
-coin.addEventListener("pointerdown", (e) => {
-  addBalance(clickPower, true);
-  updateUI();
-  save();
+  // Slots
+  var SLOT_SYMBOLS = ["👟","💎","🍒","🍋","⭐","7️⃣","💰","🔥"];
+  var slotsSpinning = false;
 
-  const plus = document.createElement("div");
-  plus.className = "floating";
-  plus.textContent = "+" + clickPower;
+  // Bytecoin
+  var bcActive = false;
+  var bcStake = 0;
+  var bcMult = 1.0;
+  var bcTimer = null;
+  var bcTicks = 0;
 
-  const rect = coin.getBoundingClientRect();
-  plus.style.left = (e.clientX - rect.left) + "px";
-  plus.style.top  = (e.clientY - rect.top)  + "px";
+  /* ======== DOM ======== */
+  var elBalance = document.getElementById("balance");
+  var elCoin = document.getElementById("coin");
 
-  coin.appendChild(plus);
-  setTimeout(() => plus.remove(), 800);
-});
+  function $(id){ return document.getElementById(id); }
 
-/* ========= Shop ========= */
-function buyUpgrade(key){
-  const u = getUpgradeState(key);
-  if (balance < u.price){ alert("Недостаточно монет!"); return; }
-
-  balance -= u.price;
-  clickPower += u.addPower;
-
-  if (key === "u1") lvl1++;
-  if (key === "u3") lvl3++;
-  if (key === "u5") lvl5++;
-  if (key === "u10") lvl10++;
-
-  updateUI();
-  save();
-  alert("Прокачка куплена!");
-}
-
-/* ========= Codes ========= */
-function normalizeCode(s){ return (s||"").trim().toLowerCase(); }
-function setCodeMsg(text, ok){
-  const el = document.getElementById("codeMsg");
-  el.textContent = text;
-  el.style.color = ok ? "var(--ok)" : "var(--danger)";
-}
-function redeemCode(){
-  const input = document.getElementById("codeInput");
-  const code = normalizeCode(input.value);
-
-  if (!code){ setCodeMsg("Введи код.", false); return; }
-  if (!CODES[code]){ setCodeMsg("Неверный код.", false); return; }
-  if (redeemedCodes[code]){ setCodeMsg("Этот код уже активирован.", false); return; }
-
-  redeemedCodes[code] = true;
-
-  const rewardMoney = CODES[code].rewardMoney || 0;
-  const rewardTap = CODES[code].rewardTap || 0;
-
-  if (rewardMoney > 0) addBalance(rewardMoney, true);
-  if (rewardTap > 0) clickPower += rewardTap;
-
-  input.value = "";
-  setCodeMsg(`Код активирован! +${formatNumber(rewardMoney)}${rewardTap ? ` и +${rewardTap} за тап` : ""}`, true);
-
-  updateUI();
-  save();
-}
-
-/* ========= Telegram Stars: REAL flow via invoice ========= */
-function tg(){
-  // Telegram Mini App API (если игра запущена не в Telegram — вернёт null)
-  return (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
-}
-function setDonateMsg(text, ok){
-  const el = document.getElementById("donateMsg");
-  el.textContent = text || "";
-  el.style.color = ok ? "var(--ok)" : "var(--danger)";
-}
-
-async function buyStarsPack(packId){
-  const pack = DONATE_PACKS[packId];
-  if (!pack) return;
-
-  const T = tg();
-  if (!T){
-    setDonateMsg("Открой игру внутри Telegram, чтобы донат работал через Stars.", false);
-    return;
+  /* ======== Persistence ======== */
+  function save(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        balance: balance,
+        clickPower: clickPower,
+        totalEarned: totalEarned,
+        casinoPlays: casinoPlays,
+        claimedMedals: claimedMedals,
+        redeemedCodes: redeemedCodes,
+        lvl1:lvl1, lvl3:lvl3, lvl5:lvl5, lvl10:lvl10
+      }));
+    }catch(e){}
   }
 
-  try{
+  function load(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      var data = JSON.parse(raw);
+
+      if (typeof data.balance === "number") balance = data.balance;
+      if (typeof data.clickPower === "number") clickPower = data.clickPower;
+      if (typeof data.totalEarned === "number") totalEarned = data.totalEarned;
+      if (typeof data.casinoPlays === "number") casinoPlays = data.casinoPlays;
+
+      if (data.claimedMedals && typeof data.claimedMedals === "object") claimedMedals = data.claimedMedals;
+      if (data.redeemedCodes && typeof data.redeemedCodes === "object") redeemedCodes = data.redeemedCodes;
+
+      if (typeof data.lvl1 === "number") lvl1 = data.lvl1;
+      if (typeof data.lvl3 === "number") lvl3 = data.lvl3;
+      if (typeof data.lvl5 === "number") lvl5 = data.lvl5;
+      if (typeof data.lvl10 === "number") lvl10 = data.lvl10;
+    }catch(e){}
+  }
+
+  /* ======== Helpers ======== */
+  function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+  function formatNumber(num){
+    num = Math.floor(num);
+    if (num < 1000) return String(num);
+    if (num < 1000000) return (num/1000).toFixed(1).replace(".0","") + "k";
+    if (num < 1000000000) return (num/1000000).toFixed(1).replace(".0","") + "M";
+    if (num < 1000000000000) return (num/1000000000).toFixed(1).replace(".0","") + "B";
+    return (num/1000000000000).toFixed(1).replace(".0","") + "T";
+  }
+
+  function addBalance(amount, countAsEarned){
+    if (typeof amount !== "number" || !isFinite(amount)) return;
+    balance += amount;
+    if (countAsEarned && amount > 0) totalEarned += amount;
+  }
+
+  function priceFor(base, level){
+    return Math.ceil(base * Math.pow(ECON.growth, level));
+  }
+
+  function getUpgradeState(key){
+    if (key === "u1")  return { level:lvl1,  price:priceFor(ECON.u1.basePrice,  lvl1),  addPower:ECON.u1.addPower,  label:ECON.u1.name };
+    if (key === "u3")  return { level:lvl3,  price:priceFor(ECON.u3.basePrice,  lvl3),  addPower:ECON.u3.addPower,  label:ECON.u3.name };
+    if (key === "u5")  return { level:lvl5,  price:priceFor(ECON.u5.basePrice,  lvl5),  addPower:ECON.u5.addPower,  label:ECON.u5.name };
+    if (key === "u10") return { level:lvl10, price:priceFor(ECON.u10.basePrice, lvl10), addPower:ECON.u10.addPower, label:ECON.u10.name };
+    return null;
+  }
+
+  function normalizeCode(s){
+    s = (s || "");
+    s = s.replace(/^\s+|\s+$/g, "");
+    return s.toLowerCase();
+  }
+
+  /* ======== UI ======== */
+  function refreshMedalsUI(){
+    $("m_million_meta").textContent = "Нужно заработать 1,000,000 • Сейчас: " + formatNumber(totalEarned);
+    $("m_gambler_meta").textContent = "Нужно сыграть 50 раз в казино • Сейчас: " + casinoPlays;
+    $("m_nopolice_meta").textContent = "Нужно активировать 3 кода • Сейчас: " + Object.keys(redeemedCodes).length;
+
+    setMedalButton("tap_millionaire", totalEarned >= 1000000, "m_million_btn");
+    setMedalButton("gambler50", casinoPlays >= 50, "m_gambler_btn");
+    setMedalButton("no_police", Object.keys(redeemedCodes).length >= 3, "m_nopolice_btn");
+  }
+
+  function setMedalButton(id, unlockable, btnId){
+    var btn = $(btnId);
+    if (!btn) return;
+
+    if (claimedMedals[id]){
+      btn.textContent = "Получено";
+      btn.disabled = true;
+      return;
+    }
+    if (unlockable){
+      btn.textContent = "Забрать";
+      btn.disabled = false;
+    } else {
+      btn.textContent = "Закрыто";
+      btn.disabled = true;
+    }
+  }
+
+  function updateUI(){
+    elBalance.textContent = formatNumber(balance);
+
+    var u1 = getUpgradeState("u1");
+    var u3 = getUpgradeState("u3");
+    var u5 = getUpgradeState("u5");
+    var u10 = getUpgradeState("u10");
+
+    $("upgrade1Text").textContent  = u1.label  + " (Ур. " + u1.level  + ") • Цена: " + formatNumber(u1.price);
+    $("upgrade3Text").textContent  = u3.label  + " (Ур. " + u3.level  + ") • Цена: " + formatNumber(u3.price);
+    $("upgrade5Text").textContent  = u5.label  + " (Ур. " + u5.level  + ") • Цена: " + formatNumber(u5.price);
+    $("upgrade10Text").textContent = u10.label + " (Ур. " + u10.level + ") • Цена: " + formatNumber(u10.price);
+
+    $("stat_earned").textContent = formatNumber(totalEarned);
+    $("stat_casino").textContent = String(casinoPlays);
+    $("stat_codes").textContent = String(Object.keys(redeemedCodes).length);
+
+    refreshMedalsUI();
+  }
+
+  /* ======== Modals ======== */
+  var MODALS = ["medals","leaders","codes","shop","donate","casino"];
+
+  function closeAllModals(){
+    for (var i=0;i<MODALS.length;i++){
+      var m = $(MODALS[i]);
+      if (m) m.style.display = "none";
+    }
+    var navs = document.querySelectorAll(".nav-btn");
+    for (var j=0;j<navs.length;j++){
+      navs[j].classList.remove("active");
+    }
+  }
+
+  function openModal(id, navBtn){
+    closeAllModals();
+    var m = $(id);
+    if (m) m.style.display = "flex";
+    if (navBtn) navBtn.classList.add("active");
+    if (id === "casino") showCasinoView("menu");
+  }
+
+  function closeModal(id){
+    var m = $(id);
+    if (m) m.style.display = "none";
+    var navs = document.querySelectorAll(".nav-btn");
+    for (var j=0;j<navs.length;j++){
+      navs[j].classList.remove("active");
+    }
+  }
+
+  /* close by clicking backdrop */
+  function bindBackdropClose(modalId){
+    var modal = $(modalId);
+    if (!modal) return;
+    modal.addEventListener("click", function(e){
+      if (e.target === modal) closeModal(modalId);
+    });
+  }
+
+  /* ======== Tap ======== */
+  function doTap(e){
+    addBalance(clickPower, true);
+    updateUI();
+    save();
+
+    var plus = document.createElement("div");
+    plus.className = "floating";
+    plus.textContent = "+" + clickPower;
+
+    var rect = elCoin.getBoundingClientRect();
+    var x = 90, y = 90;
+
+    if (e && e.clientX){
+      x = e.clientX - rect.left;
+      y = e.clientY - rect.top;
+    } else if (e && e.touches && e.touches[0]){
+      x = e.touches[0].clientX - rect.left;
+      y = e.touches[0].clientY - rect.top;
+    }
+
+    plus.style.left = x + "px";
+    plus.style.top = y + "px";
+    elCoin.appendChild(plus);
+    setTimeout(function(){ if (plus && plus.parentNode) plus.parentNode.removeChild(plus); }, 800);
+  }
+
+  /* ======== Shop ======== */
+  function buyUpgrade(key){
+    var u = getUpgradeState(key);
+    if (!u) return;
+    if (balance < u.price){ alert("Недостаточно монет!"); return; }
+
+    balance -= u.price;
+    clickPower += u.addPower;
+
+    if (key === "u1") lvl1++;
+    if (key === "u3") lvl3++;
+    if (key === "u5") lvl5++;
+    if (key === "u10") lvl10++;
+
+    updateUI();
+    save();
+    alert("Прокачка куплена!");
+  }
+
+  /* ======== Codes ======== */
+  function setCodeMsg(text, ok){
+    var el = $("codeMsg");
+    el.textContent = text || "";
+    el.style.color = ok ? "var(--ok)" : "var(--danger)";
+  }
+
+  function redeemCode(){
+    var input = $("codeInput");
+    var code = normalizeCode(input.value);
+
+    if (!code){ setCodeMsg("Введи код.", false); return; }
+    if (!CODES[code]){ setCodeMsg("Неверный код.", false); return; }
+    if (redeemedCodes[code]){ setCodeMsg("Этот код уже активирован.", false); return; }
+
+    redeemedCodes[code] = true;
+
+    var rewardMoney = CODES[code].rewardMoney || 0;
+    var rewardTap = CODES[code].rewardTap || 0;
+
+    if (rewardMoney > 0) addBalance(rewardMoney, true);
+    if (rewardTap > 0) clickPower += rewardTap;
+
+    input.value = "";
+    setCodeMsg("Код активирован! +" + formatNumber(rewardMoney), true);
+
+    updateUI();
+    save();
+  }
+
+  /* ======== Medals ======== */
+  function claimMedal(id){
+    if (claimedMedals[id]) return;
+
+    if (id === "tap_millionaire"){
+      if (totalEarned < 1000000) return;
+      clickPower += 2;
+    } else if (id === "gambler50"){
+      if (casinoPlays < 50) return;
+      clickPower += 2;
+    } else if (id === "no_police"){
+      if (Object.keys(redeemedCodes).length < 3) return;
+      addBalance(15000, true);
+      clickPower += 5;
+    } else {
+      return;
+    }
+
+    claimedMedals[id] = true;
+    updateUI();
+    save();
+    alert("Награда за медаль получена!");
+  }
+
+  /* ======== Telegram Stars (реально через openInvoice + API) ======== */
+  function tgWebApp(){
+    if (window.Telegram && window.Telegram.WebApp) return window.Telegram.WebApp;
+    return null;
+  }
+
+  function setDonateMsg(text, ok){
+    var el = $("donateMsg");
+    el.textContent = text || "";
+    el.style.color = ok ? "var(--ok)" : "var(--danger)";
+  }
+
+  function httpPostJson(url, payload, cb){
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function(){
+      if (xhr.readyState !== 4) return;
+      if (xhr.status >= 200 && xhr.status < 300){
+        var data = null;
+        try{ data = JSON.parse(xhr.responseText); }catch(e){}
+        cb(null, data);
+      } else {
+        cb(new Error("HTTP " + xhr.status), null);
+      }
+    };
+    xhr.send(JSON.stringify(payload));
+  }
+
+  function grantDonation(packId){
+    var pack = DONATE_PACKS[packId];
+    if (!pack) return;
+    addBalance(pack.money, true);
+    updateUI();
+    save();
+    alert("Успешно! +" + formatNumber(pack.money) + " монет.");
+  }
+
+  function buyStarsPack(packId){
+    var pack = DONATE_PACKS[packId];
+    if (!pack) return;
+
+    var T = tgWebApp();
+    if (!T){
+      setDonateMsg("Открой игру внутри Telegram, чтобы донат работал через Stars.", false);
+      return;
+    }
+
+    try{
+      T.ready();
+    }catch(e){}
+
     setDonateMsg("Создаём инвойс...", true);
 
-    // initData нужен бекенду для валидации пользователя
-    const initData = T.initData || "";
+    var initData = T.initData || "";
 
-    // 1) Получаем invoice_link с бекенда
-    const r = await fetch(`${BACKEND_URL}/create-invoice`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ packId, initData })
-    });
+    // 1) create invoice (ВАЖНО: на одном домене, без CORS)
+    httpPostJson("/api/create-invoice", { packId: packId, initData: initData }, function(err, data){
+      if (err || !data || !data.invoiceLink){
+        setDonateMsg("Ошибка создания инвойса. Нужен API /api/create-invoice на Vercel.", false);
+        return;
+      }
 
-    if (!r.ok){
-      setDonateMsg("Ошибка: не удалось создать инвойс. Проверь бекенд /create-invoice.", false);
-      return;
-    }
+      setDonateMsg("Открываем оплату...", true);
 
-    const data = await r.json();
-    const invoiceLink = data && data.invoiceLink;
-
-    if (!invoiceLink || typeof invoiceLink !== "string"){
-      setDonateMsg("Ошибка: бекенд не вернул invoiceLink.", false);
-      return;
-    }
-
-    setDonateMsg("Открываем оплату...", true);
-
-    // 2) Открываем оплату
-    T.openInvoice(invoiceLink, async (status) => {
-      // status: 'paid' | 'cancelled' | 'failed' | ...
-      if (status === "paid") {
-        // 3) Рекомендуется подтвердить на бекенде, прежде чем начислять валюту
-        try{
-          const c = await fetch(`${BACKEND_URL}/confirm-payment`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ packId, initData, status })
+      // 2) open invoice
+      T.openInvoice(String(data.invoiceLink), function(status){
+        // status: 'paid' | 'cancelled' | 'failed' ...
+        if (status === "paid"){
+          // 3) confirm payment on backend
+          httpPostJson("/api/confirm-payment", { packId: packId, initData: initData, status: status }, function(err2, data2){
+            if (err2 || !data2 || data2.ok !== true){
+              setDonateMsg("Оплата прошла, но бекенд не подтвердил транзакцию. Нужен /api/confirm-payment.", false);
+              return;
+            }
+            grantDonation(packId);
+            setDonateMsg("Оплата успешна ✅ Монеты начислены.", true);
           });
-
-          if (!c.ok){
-            setDonateMsg("Оплата прошла, но подтверждение не удалось. Проверь /confirm-payment.", false);
-            return;
-          }
-          const cd = await c.json();
-          if (!cd || cd.ok !== true){
-            setDonateMsg("Оплата прошла, но бекенд не подтвердил транзакцию.", false);
-            return;
-          }
-        }catch(_){
-          setDonateMsg("Оплата прошла, но ошибка подтверждения на бекенде.", false);
-          return;
+        } else if (status === "cancelled"){
+          setDonateMsg("Покупка отменена.", false);
+        } else {
+          setDonateMsg("Оплата неуспешна.", false);
         }
+      });
+    });
+  }
 
-        // Начисляем
-        grantDonation(packId);
-        setDonateMsg("Оплата успешна! Монеты начислены ✅", true);
-      } else if (status === "cancelled") {
-        setDonateMsg("Покупка отменена.", false);
+  /* ======== Casino views ======== */
+  function showCasinoView(which){
+    stopBytecoin(false);
+
+    $("casinoMenu").classList.remove("active");
+    $("casinoHT").classList.remove("active");
+    $("casinoSlots").classList.remove("active");
+    $("casinoBytecoin").classList.remove("active");
+
+    if (which === "menu") $("casinoMenu").classList.add("active");
+    if (which === "ht") $("casinoHT").classList.add("active");
+    if (which === "slots") $("casinoSlots").classList.add("active");
+    if (which === "bytecoin") $("casinoBytecoin").classList.add("active");
+  }
+
+  function getStake(mode){
+    var inputId = "stakeInputHT";
+    if (mode === "S") inputId = "stakeInputSlots";
+    if (mode === "BC") inputId = "stakeInputBC";
+
+    var input = $(inputId);
+    var v = Number(input.value);
+    if (!isFinite(v)) v = CASINO_MIN;
+    v = Math.round(v / 1000) * 1000;
+    v = clamp(v, CASINO_MIN, CASINO_MAX);
+    input.value = String(v);
+    return v;
+  }
+
+  function setStake(mode, amount){
+    var inputId = "stakeInputHT";
+    if (mode === "S") inputId = "stakeInputSlots";
+    if (mode === "BC") inputId = "stakeInputBC";
+    $(inputId).value = String(clamp(amount, CASINO_MIN, CASINO_MAX));
+  }
+
+  /* ======== Heads/Tails (47% win hidden) ======== */
+  function pickSide(side){
+    if (isFlipping) return;
+    pickedSide = side;
+    $("pickHeads").classList.toggle("active", side === "H");
+    $("pickTails").classList.toggle("active", side === "T");
+  }
+
+  function startFlip(){
+    if (isFlipping) return;
+
+    var stake = getStake("HT");
+    var resultEl = $("flipResult");
+    var btn = $("flipBtn");
+    var flipCoin = $("flipCoin");
+
+    if (balance < stake){
+      resultEl.className = "result bad";
+      resultEl.textContent = "Недостаточно монет для ставки!";
+      return;
+    }
+
+    casinoPlays++;
+    balance -= stake;
+    updateUI(); save();
+
+    isFlipping = true;
+    resultEl.className = "result";
+    resultEl.textContent = "Крутим...";
+    btn.disabled = true; btn.style.opacity = "0.7";
+    flipCoin.classList.add("flipping");
+
+    var win = Math.random() < 0.47;
+    var outcome = win ? pickedSide : (pickedSide === "H" ? "T" : "H");
+
+    setTimeout(function(){
+      flipCoin.classList.remove("flipping");
+
+      var outcomeText = outcome === "H" ? "Орёл" : "Решка";
+      var pickedText = pickedSide === "H" ? "Орёл" : "Решка";
+
+      if (outcome === pickedSide){
+        var returned = stake * 2;
+        addBalance(returned, true);
+        resultEl.className = "result ok";
+        resultEl.textContent = outcomeText + "! Ты выбрал(а) " + pickedText + ". WIN +" + formatNumber(stake) + " (x2)";
       } else {
-        setDonateMsg("Оплата неуспешна.", false);
+        resultEl.className = "result bad";
+        resultEl.textContent = outcomeText + "... Ты выбрал(а) " + pickedText + ". LOSE -" + formatNumber(stake);
+      }
+
+      updateUI(); save();
+      isFlipping = false;
+      btn.disabled = false; btn.style.opacity = "1";
+    }, 900);
+  }
+
+  /* ======== Slots ======== */
+  function randSymbol(){
+    return SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)];
+  }
+
+  function clearReelGlow(){
+    $("reel1").classList.remove("win-glow");
+    $("reel2").classList.remove("win-glow");
+    $("reel3").classList.remove("win-glow");
+  }
+
+  function spinSlots(){
+    if (slotsSpinning) return;
+
+    var stake = getStake("S");
+    var resultEl = $("slotsResult");
+    var btn = $("slotsBtn");
+
+    if (balance < stake){
+      resultEl.className = "result bad";
+      resultEl.textContent = "Недостаточно монет для ставки!";
+      return;
+    }
+
+    casinoPlays++;
+    balance -= stake;
+    updateUI(); save();
+
+    slotsSpinning = true;
+    btn.disabled = true; btn.style.opacity = "0.7";
+    resultEl.className = "result";
+    resultEl.textContent = "Крутим...";
+    clearReelGlow();
+
+    var r1 = $("reel1"), r2 = $("reel2"), r3 = $("reel3");
+    r1.classList.add("spinning");
+    r2.classList.add("spinning");
+    r3.classList.add("spinning");
+
+    var start = Date.now();
+    var spinFor = 950;
+
+    function tick(){
+      r1.textContent = randSymbol();
+      r2.textContent = randSymbol();
+      r3.textContent = randSymbol();
+      if (Date.now() - start < spinFor){
+        requestAnimationFrame(tick);
+      }
+    }
+    requestAnimationFrame(tick);
+
+    setTimeout(function(){
+      r1.classList.remove("spinning");
+      setTimeout(function(){
+        r2.classList.remove("spinning");
+        setTimeout(function(){
+          r3.classList.remove("spinning");
+
+          // финал (контроль баланса): шанс выигрыша невысокий
+          var a = randSymbol(), b = randSymbol(), c = randSymbol();
+          var p = Math.random();
+
+          if (p < 0.005) { a="💎"; b="💎"; c="💎"; }
+          else if (p < 0.040) { a="7️⃣"; b="7️⃣"; c="7️⃣"; }
+          else if (p < 0.180) {
+            var s = randSymbol();
+            a=s; b=s; c=randSymbol();
+            if (Math.random() < 0.5){ c=s; b=randSymbol(); }
+          }
+
+          r1.textContent = a; r2.textContent = b; r3.textContent = c;
+
+          var mult = 0;
+          if (a===b && b===c){
+            mult = (a==="💎") ? 25 : 5;
+            r1.classList.add("win-glow");
+            r2.classList.add("win-glow");
+            r3.classList.add("win-glow");
+          } else if (a===b || b===c || a===c){
+            mult = 2;
+            if (a===b){ r1.classList.add("win-glow"); r2.classList.add("win-glow"); }
+            if (b===c){ r2.classList.add("win-glow"); r3.classList.add("win-glow"); }
+            if (a===c){ r1.classList.add("win-glow"); r3.classList.add("win-glow"); }
+          } else {
+            mult = 0;
+          }
+
+          if (mult > 0){
+            var returned = Math.floor(stake * mult);
+            addBalance(returned, true);
+            var profit = returned - stake;
+            resultEl.className = "result ok";
+            resultEl.textContent = "WIN x" + mult + "! +" + formatNumber(profit) + " (итого " + formatNumber(returned) + ")";
+          } else {
+            resultEl.className = "result bad";
+            resultEl.textContent = "LOSE -" + formatNumber(stake);
+          }
+
+          updateUI(); save();
+          slotsSpinning = false;
+          btn.disabled = false; btn.style.opacity = "1";
+
+        }, 120);
+      }, 120);
+    }, spinFor);
+  }
+
+  /* ======== Bytecoin ======== */
+  function renderBC(){
+    $("bcMult").textContent = "x" + bcMult.toFixed(2);
+  }
+
+  function bcSetState(active){
+    $("bcStartBtn").disabled = active;
+    $("bcCashBtn").disabled = !active;
+    $("bcStartBtn").style.opacity = active ? "0.6" : "1";
+    $("bcCashBtn").style.opacity = active ? "1" : "0.6";
+  }
+
+  function bcSetResult(text, ok){
+    var el = $("bcResult");
+    el.className = "result " + (ok ? "ok" : "bad");
+    el.textContent = text || "";
+  }
+
+  function bcSetMultColor(isCrash){
+    var el = $("bcMult");
+    el.classList.remove("ok");
+    el.classList.remove("bad");
+    el.classList.add(isCrash ? "bad" : "ok");
+  }
+
+  function startBytecoin(){
+    if (bcActive) return;
+
+    var stake = getStake("BC");
+    if (balance < stake){
+      bcSetResult("Недостаточно монет для ставки!", false);
+      return;
+    }
+
+    casinoPlays++;
+    balance -= stake;
+
+    bcStake = stake;
+    bcMult = 1.0;
+    bcTicks = 0;
+    bcActive = true;
+
+    bcSetMultColor(false);
+    bcSetResult("Рынок растёт... успей вывести!", true);
+    renderBC();
+    bcSetState(true);
+
+    updateUI(); save();
+
+    bcTimer = setInterval(function(){
+      if (!bcActive) return;
+
+      bcTicks++;
+
+      var grow = 0.012 + Math.min(0.020, bcMult * 0.002);
+      bcMult += grow;
+
+      var pCrash = 0.002 + (bcTicks * 0.00018) + (Math.max(0, bcMult - 1) * 0.010);
+      if (Math.random() < Math.min(0.60, pCrash)){
+        crashBytecoin();
+        return;
+      }
+
+      renderBC();
+    }, 120);
+  }
+
+  function crashBytecoin(){
+    if (!bcActive) return;
+
+    bcActive = false;
+    if (bcTimer){ clearInterval(bcTimer); bcTimer = null; }
+
+    bcSetMultColor(true);
+    bcSetResult("ОБВАЛ! -" + formatNumber(bcStake) + ". Множитель упал до x1", false);
+
+    var start = bcMult;
+    var steps = 12;
+    var i = 0;
+
+    var dropTimer = setInterval(function(){
+      i++;
+      bcMult = start - (start - 1.0) * (i / steps);
+      renderBC();
+      if (i >= steps){
+        clearInterval(dropTimer);
+        bcMult = 1.0;
+        renderBC();
+        bcSetState(false);
+        setTimeout(function(){ bcSetMultColor(false); }, 350);
+        updateUI(); save();
+      }
+    }, 25);
+  }
+
+  function cashOutBytecoin(){
+    if (!bcActive) return;
+
+    bcActive = false;
+    if (bcTimer){ clearInterval(bcTimer); bcTimer = null; }
+
+    var payout = Math.floor(bcStake * bcMult);
+    addBalance(payout, true);
+
+    bcSetMultColor(false);
+    bcSetResult("Вывод успешен! +" + formatNumber(payout - bcStake) + " (итого " + formatNumber(payout) + ")", true);
+
+    bcStake = 0;
+    bcSetState(false);
+
+    updateUI(); save();
+  }
+
+  function stopBytecoin(resetUI){
+    if (bcTimer){ clearInterval(bcTimer); bcTimer = null; }
+    bcActive = false;
+    bcStake = 0;
+    bcMult = 1.0;
+    bcTicks = 0;
+    if (resetUI){
+      bcSetMultColor(false);
+      bcSetResult("", true);
+      renderBC();
+      bcSetState(false);
+    } else {
+      bcSetState(false);
+    }
+  }
+
+  /* ======== Bind events ======== */
+  function bind(){
+    // telegram webapp ready (safe)
+    try{
+      var T = tgWebApp();
+      if (T) T.ready();
+    }catch(e){}
+
+    // open modals
+    $("btnMedals").addEventListener("click", function(){ openModal("medals", null); });
+
+    $("navLeaders").addEventListener("click", function(){ openModal("leaders", this); });
+    $("navCodes").addEventListener("click", function(){ openModal("codes", this); });
+    $("navShop").addEventListener("click", function(){ openModal("shop", this); });
+    $("navDonate").addEventListener("click", function(){ openModal("donate", this); });
+    $("navCasino").addEventListener("click", function(){ openModal("casino", this); });
+
+    // close buttons
+    var closes = document.querySelectorAll("[data-close]");
+    for (var i=0;i<closes.length;i++){
+      (function(btn){
+        btn.addEventListener("click", function(){
+          var id = btn.getAttribute("data-close");
+          closeModal(id);
+        });
+      })(closes[i]);
+    }
+
+    // backdrop close
+    for (var m=0;m<MODALS.length;m++) bindBackdropClose(MODALS[m]);
+
+    // tap coin: touchstart + click (чтобы в TG не глючило)
+    elCoin.addEventListener("touchstart", function(e){ doTap(e); }, {passive:true});
+    elCoin.addEventListener("click", function(e){ doTap(e); });
+
+    // shop
+    $("buyU1").addEventListener("click", function(){ buyUpgrade("u1"); });
+    $("buyU3").addEventListener("click", function(){ buyUpgrade("u3"); });
+    $("buyU5").addEventListener("click", function(){ buyUpgrade("u5"); });
+    $("buyU10").addEventListener("click", function(){ buyUpgrade("u10"); });
+
+    // codes
+    $("btnRedeem").addEventListener("click", redeemCode);
+
+    // medals claim
+    $("m_million_btn").addEventListener("click", function(){ claimMedal("tap_millionaire"); });
+    $("m_gambler_btn").addEventListener("click", function(){ claimMedal("gambler50"); });
+    $("m_nopolice_btn").addEventListener("click", function(){ claimMedal("no_police"); });
+
+    // donate buttons
+    $("don10").addEventListener("click", function(){ buyStarsPack("stars10"); });
+    $("don20").addEventListener("click", function(){ buyStarsPack("stars20"); });
+    $("don30").addEventListener("click", function(){ buyStarsPack("stars30"); });
+
+    // casino menu navigation
+    $("goHT").addEventListener("click", function(){ showCasinoView("ht"); });
+    $("goSlots").addEventListener("click", function(){ showCasinoView("slots"); });
+    $("goBC").addEventListener("click", function(){ showCasinoView("bytecoin"); });
+
+    $("backHT").addEventListener("click", function(){ showCasinoView("menu"); });
+    $("backSlots").addEventListener("click", function(){ showCasinoView("menu"); });
+    $("backBC").addEventListener("click", function(){ showCasinoView("menu"); });
+
+    // stake quick buttons
+    document.addEventListener("click", function(e){
+      var t = e.target;
+      if (!t) return;
+      if (t.tagName === "BUTTON" && t.getAttribute("data-stake")){
+        var mode = t.getAttribute("data-stake");
+        var val = Number(t.getAttribute("data-val"));
+        if (isFinite(val)) setStake(mode, val);
       }
     });
 
-  }catch(e){
-    console.log(e);
-    setDonateMsg("Ошибка сети/бекенда. Проверь BACKEND_URL.", false);
-  }
-}
+    // heads/tails
+    $("pickHeads").addEventListener("click", function(){ pickSide("H"); });
+    $("pickTails").addEventListener("click", function(){ pickSide("T"); });
+    $("flipBtn").addEventListener("click", startFlip);
 
-function grantDonation(packId){
-  const pack = DONATE_PACKS[packId];
-  if (!pack) return;
-  addBalance(pack.money, true);
+    // slots
+    $("slotsBtn").addEventListener("click", spinSlots);
+
+    // bytecoin
+    $("bcStartBtn").addEventListener("click", startBytecoin);
+    $("bcCashBtn").addEventListener("click", cashOutBytecoin);
+  }
+
+  /* ======== Init ======== */
+  load();
   updateUI();
-  save();
-  alert(`Успешно! +${formatNumber(pack.money)} монет.`);
-}
-
-/* ========= Casino view switching ========= */
-function showCasinoView(which){
-  const menu = document.getElementById("casinoMenu");
-  const ht = document.getElementById("casinoHT");
-  const slots = document.getElementById("casinoSlots");
-  const bc = document.getElementById("casinoBytecoin");
-
-  // stop bytecoin timer if leaving it
-  if (which !== "bytecoin") stopBytecoin(false);
-
-  menu.classList.remove("active");
-  ht.classList.remove("active");
-  slots.classList.remove("active");
-  bc.classList.remove("active");
-
-  if (which === "menu") menu.classList.add("active");
-  if (which === "ht") ht.classList.add("active");
-  if (which === "slots") slots.classList.add("active");
-  if (which === "bytecoin") bc.classList.add("active");
-}
-
-/* ========= Casino: stake helpers ========= */
-function getStake(mode){
-  let inputId = "stakeInputHT";
-  if (mode === "S") inputId = "stakeInputSlots";
-  if (mode === "BC") inputId = "stakeInputBC";
-
-  const input = document.getElementById(inputId);
-  let v = Number(input.value);
-  if (!Number.isFinite(v)) v = CASINO.min;
-  v = Math.round(v / 1000) * 1000;
-  v = clamp(v, CASINO.min, CASINO.max);
-  input.value = v;
-  return v;
-}
-function setStake(mode, amount){
-  let inputId = "stakeInputHT";
-  if (mode === "S") inputId = "stakeInputSlots";
-  if (mode === "BC") inputId = "stakeInputBC";
-  const input = document.getElementById(inputId);
-  input.value = clamp(amount, CASINO.min, CASINO.max);
-}
-
-/* ========= Heads/Tails (логика остаётся “как у тебя”: победа 47%) ========= */
-function pickSide(side){
-  if (isFlipping) return;
-  pickedSide = side;
-  document.getElementById("pickHeads").classList.toggle("active", side === "H");
-  document.getElementById("pickTails").classList.toggle("active", side === "T");
-}
-function startFlip(){
-  if (isFlipping) return;
-
-  const stake = getStake("HT");
-  const resultEl = document.getElementById("flipResult");
-  const btn = document.getElementById("flipBtn");
-  const flipCoin = document.getElementById("flipCoin");
-
-  if (balance < stake){
-    resultEl.className = "result bad";
-    resultEl.textContent = "Недостаточно монет для ставки!";
-    return;
-  }
-
-  casinoPlays++;
-  balance -= stake;
-  updateUI(); save();
-
-  isFlipping = true;
-  resultEl.className = "result";
-  resultEl.textContent = "Крутим...";
-  btn.disabled = true; btn.style.opacity = "0.7";
-  flipCoin.classList.add("flipping");
-
-  const win = Math.random() < 0.47; // скрыто, без подсказок
-  const outcome = win ? pickedSide : (pickedSide === "H" ? "T" : "H");
-
-  setTimeout(() => {
-    flipCoin.classList.remove("flipping");
-
-    const outcomeText = outcome === "H" ? "Орёл" : "Решка";
-    const pickedText = pickedSide === "H" ? "Орёл" : "Решка";
-
-    if (outcome === pickedSide){
-      const returned = stake * 2;
-      addBalance(returned, true);
-      resultEl.className = "result ok";
-      resultEl.textContent = `${outcomeText}! Ты выбрал(а) ${pickedText}. WIN +${formatNumber(stake)} (x2)`;
-    } else {
-      resultEl.className = "result bad";
-      resultEl.textContent = `${outcomeText}... Ты выбрал(а) ${pickedText}. LOSE -${formatNumber(stake)}`;
-    }
-
-    updateUI(); save();
-    isFlipping = false;
-    btn.disabled = false; btn.style.opacity = "1";
-  }, 900);
-}
-
-/* ========= Slots ========= */
-function randSymbol(){
-  return SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)];
-}
-function clearReelGlow(){
-  ["reel1","reel2","reel3"].forEach(id => document.getElementById(id).classList.remove("win-glow"));
-}
-async function spinSlots(){
-  if (slotsSpinning) return;
-
-  const stake = getStake("S");
-  const resultEl = document.getElementById("slotsResult");
-  const btn = document.getElementById("slotsBtn");
-
-  if (balance < stake){
-    resultEl.className = "result bad";
-    resultEl.textContent = "Недостаточно монет для ставки!";
-    return;
-  }
-
-  casinoPlays++;
-  balance -= stake;
-  updateUI(); save();
-
-  slotsSpinning = true;
-  btn.disabled = true; btn.style.opacity = "0.7";
-  resultEl.className = "result";
-  resultEl.textContent = "Крутим...";
-  clearReelGlow();
-
-  const r1 = document.getElementById("reel1");
-  const r2 = document.getElementById("reel2");
-  const r3 = document.getElementById("reel3");
-
-  r1.classList.add("spinning");
-  r2.classList.add("spinning");
-  r3.classList.add("spinning");
-
-  // “анимация” сменой символов
-  const tStart = Date.now();
-  const spinFor = 950;
-  const tick = () => {
-    r1.textContent = randSymbol();
-    r2.textContent = randSymbol();
-    r3.textContent = randSymbol();
-    if (Date.now() - tStart < spinFor) requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
-
-  // финальные символы
-  await new Promise(res => setTimeout(res, spinFor));
-
-  r1.classList.remove("spinning");
-  await new Promise(res => setTimeout(res, 120));
-  r2.classList.remove("spinning");
-  await new Promise(res => setTimeout(res, 120));
-  r3.classList.remove("spinning");
-
-  // финал (чуть “контролируемый” баланс)
-  // шанс “выигрыша” небольшой: 18% на 2 одинаковых, 3.5% на 3 одинаковых, 0.5% на 💎💎💎
-  let a = randSymbol(), b = randSymbol(), c = randSymbol();
-  const p = Math.random();
-
-  if (p < 0.005) { a="💎"; b="💎"; c="💎"; }
-  else if (p < 0.040) { a="7️⃣"; b="7️⃣"; c="7️⃣"; }
-  else if (p < 0.180) {
-    // две одинаковых
-    const s = randSymbol();
-    a=s; b=s; c=randSymbol();
-    // иногда делаем совпадение в других позициях
-    if (Math.random() < 0.5){ c=s; b=randSymbol(); }
-  }
-
-  r1.textContent = a; r2.textContent = b; r3.textContent = c;
-
-  // payout rules
-  let mult = 0;
-  if (a===b && b===c){
-    mult = (a==="💎") ? 25 : 5;
-    ["reel1","reel2","reel3"].forEach(id => document.getElementById(id).classList.add("win-glow"));
-  } else if (a===b || b===c || a===c){
-    mult = 2;
-    if (a===b){ r1.classList.add("win-glow"); r2.classList.add("win-glow"); }
-    if (b===c){ r2.classList.add("win-glow"); r3.classList.add("win-glow"); }
-    if (a===c){ r1.classList.add("win-glow"); r3.classList.add("win-glow"); }
-  } else {
-    mult = 0;
-  }
-
-  if (mult > 0){
-    const returned = Math.floor(stake * mult);
-    addBalance(returned, true);
-    const profit = returned - stake;
-    resultEl.className = "result ok";
-    resultEl.textContent = `WIN x${mult}! +${formatNumber(profit)} (итого ${formatNumber(returned)})`;
-  } else {
-    resultEl.className = "result bad";
-    resultEl.textContent = `LOSE -${formatNumber(stake)}`;
-  }
-
-  updateUI(); save();
-  slotsSpinning = false;
-  btn.disabled = false; btn.style.opacity = "1";
-}
-
-/* ========= Bytecoin ========= */
-function renderBC(){
-  document.getElementById("bcMult").textContent = `x${bcMult.toFixed(2)}`;
-}
-function setBCState(active){
-  const startBtn = document.getElementById("bcStartBtn");
-  const cashBtn = document.getElementById("bcCashBtn");
-  startBtn.disabled = active;
-  cashBtn.disabled = !active;
-  startBtn.style.opacity = active ? "0.6" : "1";
-  cashBtn.style.opacity = active ? "1" : "0.6";
-}
-function bcSetResult(text, ok){
-  const el = document.getElementById("bcResult");
-  el.className = "result " + (ok ? "ok" : "bad");
-  el.textContent = text || "";
-}
-function bcSetMultColor(isCrash){
-  const el = document.getElementById("bcMult");
-  el.classList.remove("ok","bad");
-  el.classList.add(isCrash ? "bad" : "ok");
-}
-
-function startBytecoin(){
-  if (bcActive) return;
-
-  const stake = getStake("BC");
-  if (balance < stake){
-    bcSetResult("Недостаточно монет для ставки!", false);
-    return;
-  }
-
-  casinoPlays++;
-  balance -= stake;
-  bcStake = stake;
-  bcMult = 1.0;
-  bcTicks = 0;
-  bcActive = true;
-
-  bcSetMultColor(false);
-  bcSetResult("Рынок растёт... успей вывести!", true);
+  pickSide("H");
   renderBC();
-  setBCState(true);
+  bcSetState(false);
+  bind();
 
-  updateUI(); save();
-
-  bcTimer = setInterval(() => {
-    if (!bcActive) return;
-
-    bcTicks++;
-
-    const grow = 0.012 + Math.min(0.020, bcMult * 0.002);
-    bcMult += grow;
-
-    const pCrash = 0.002 + (bcTicks * 0.00018) + (Math.max(0, bcMult - 1) * 0.010);
-    if (Math.random() < Math.min(0.60, pCrash)){
-      crashBytecoin();
-      return;
-    }
-
-    renderBC();
-  }, 120);
-}
-
-function crashBytecoin(){
-  if (!bcActive) return;
-
-  bcActive = false;
-  if (bcTimer){ clearInterval(bcTimer); bcTimer = null; }
-
-  bcSetMultColor(true);
-  bcSetResult(`ОБВАЛ! -${formatNumber(bcStake)}. Множитель упал до x1`, false);
-
-  const start = bcMult;
-  const steps = 12;
-  let i = 0;
-  const dropTimer = setInterval(() => {
-    i++;
-    bcMult = start - (start - 1.0) * (i / steps);
-    renderBC();
-    if (i >= steps){
-      clearInterval(dropTimer);
-      bcMult = 1.0;
-      renderBC();
-      setBCState(false);
-      setTimeout(() => bcSetMultColor(false), 350);
-      updateUI(); save();
-    }
-  }, 25);
-}
-
-function cashOutBytecoin(){
-  if (!bcActive) return;
-
-  bcActive = false;
-  if (bcTimer){ clearInterval(bcTimer); bcTimer = null; }
-
-  const payout = Math.floor(bcStake * bcMult);
-  addBalance(payout, true);
-
-  bcSetMultColor(false);
-  bcSetResult(`Вывод успешен! +${formatNumber(payout - bcStake)} (итого ${formatNumber(payout)})`, true);
-
-  bcStake = 0;
-  setBCState(false);
-
-  updateUI(); save();
-}
-
-function stopBytecoin(resetUI){
-  if (bcTimer){ clearInterval(bcTimer); bcTimer = null; }
-  bcActive = false;
-  bcStake = 0;
-  bcMult = 1.0;
-  bcTicks = 0;
-  if (resetUI){
-    bcSetMultColor(false);
-    bcSetResult("", true);
-    renderBC();
-    setBCState(false);
-  } else {
-    setBCState(false);
-  }
-}
-
-/* ========= Init ========= */
-load();
-updateUI();
-pickSide("H");
-renderBC();
-setBCState(false);
+})();
 </script>
 
 </body>
