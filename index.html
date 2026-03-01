@@ -369,6 +369,7 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
     <div class="close" data-close="medals">✖</div>
     <h2>🏅 Медали</h2>
     <div class="small">Открывай медали и забирай награды (каждую — 1 раз).</div>
+
     <div class="hr"></div>
 
     <div class="medal-item">
@@ -376,6 +377,7 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
         <div class="medal-title">🏅 Тапочный мелеонер</div>
         <div class="medal-meta" id="m_million_meta">Нужно заработать 1,000,000</div>
         <div class="medal-meta">Награда: +2 за тап</div>
+        <div class="medal-meta">+3 лицензии</div>
       </div>
       <button class="buy" id="m_million_btn">Забрать</button>
     </div>
@@ -385,6 +387,7 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
         <div class="medal-title">🎰 Лудоман</div>
         <div class="medal-meta" id="m_gambler_meta">Нужно сыграть 50 раз в казино</div>
         <div class="medal-meta">Награда: +2 за тап</div>
+        <div class="medal-meta">+2 лицензии</div>
       </div>
       <button class="buy" id="m_gambler_btn">Забрать</button>
     </div>
@@ -394,6 +397,7 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
         <div class="medal-title">🚫 NO POLICE PLEASE</div>
         <div class="medal-meta" id="m_nopolice_meta">Нужно активировать 3 кода</div>
         <div class="medal-meta">Награда: +15k денег и +5 за тап</div>
+        <div class="medal-meta">+5 лицензий</div>
       </div>
       <button class="buy" id="m_nopolice_btn">Забрать</button>
     </div>
@@ -401,7 +405,27 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
     <div class="hr"></div>
     <div class="small">
       Прогресс: заработано <b id="stat_earned">0</b>, игр в казино <b id="stat_casino">0</b>, активировано кодов <b id="stat_codes">0</b>.
+      <br>Лицензии: <b id="stat_lic">0</b>. Доход бизнеса: <b id="stat_income">0</b>/час.
+      <br>Буст: <b id="stat_boost">нет</b>.
     </div>
+
+    <div class="hr"></div>
+
+    <!-- Чековая книжка (без изменения дизайна — внутри модалки медалей) -->
+    <div class="panel">
+      <div style="font-weight:950;margin-bottom:6px;">📒 Чековая книжка</div>
+      <div class="small">
+        Работает по-настоящему только с backend.
+        Игрок платит сумму → получает ссылку. Активирующий получает сумму минус 10% комиссии.
+      </div>
+      <div class="hr"></div>
+      <div class="small" style="margin-bottom:6px;">Сумма (деньги):</div>
+      <input class="stake-input" id="checkAmount" type="number" min="1" step="1" value="1000"/>
+      <button class="buy" id="btnCreateCheck" style="width:100%;padding:10px 12px;border-radius:12px;margin-top:10px;">Выписать чек</button>
+      <div class="small" id="checkMsg" style="margin-top:10px;"></div>
+      <div class="small" id="checkLink" style="margin-top:6px;word-break:break-all;"></div>
+    </div>
+
   </div>
 </div>
 
@@ -410,9 +434,17 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
   <div class="modal-content">
     <div class="close" data-close="leaders">✖</div>
     <h2>🏆 Лидеры</h2>
-    <p>1. TapMaster — 12M</p>
-    <p>2. GoldenFoot — 8.5M</p>
-    <p>3. RichSneaker — 4.2M</p>
+    <div class="small">
+      Реальные лидеры требуют backend. Если backend нет — покажем заглушку.
+    </div>
+    <div class="hr"></div>
+    <div id="leadersList">
+      <p>1. TapMaster — 12M</p>
+      <p>2. GoldenFoot — 8.5M</p>
+      <p>3. RichSneaker — 4.2M</p>
+    </div>
+    <div class="hr"></div>
+    <div class="small" id="leadersMsg"></div>
   </div>
 </div>
 
@@ -437,27 +469,51 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
     <div class="close" data-close="shop">✖</div>
     <h2>🛒 Магазин</h2>
 
-    <div class="shop-item">
-      <span id="upgrade1Text"></span>
-      <button class="buy" id="buyU1">Купить</button>
+    <!-- единственное разрешённое изменение UI: вкладка "Бизнесы" -->
+    <div class="quick" style="margin-top:0;margin-bottom:10px;">
+      <button id="tabUpgrades">Прокачка</button>
+      <button id="tabBusinesses">Бизнесы</button>
     </div>
 
-    <div class="shop-item">
-      <span id="upgrade3Text"></span>
-      <button class="buy" id="buyU3">Купить</button>
+    <div id="shopViewUpgrades">
+      <div class="shop-item">
+        <span id="upgrade1Text"></span>
+        <button class="buy" id="buyU1">Купить</button>
+      </div>
+
+      <div class="shop-item">
+        <span id="upgrade3Text"></span>
+        <button class="buy" id="buyU3">Купить</button>
+      </div>
+
+      <div class="shop-item">
+        <span id="upgrade5Text"></span>
+        <button class="buy" id="buyU5">Купить</button>
+      </div>
+
+      <div class="shop-item">
+        <span id="upgrade10Text"></span>
+        <button class="buy" id="buyU10">Купить</button>
+      </div>
+
+      <div class="small">Цена растёт по формуле: base × 1.6^уровень</div>
     </div>
 
-    <div class="shop-item">
-      <span id="upgrade5Text"></span>
-      <button class="buy" id="buyU5">Купить</button>
+    <div id="shopViewBusinesses" style="display:none;">
+      <div class="panel">
+        <div class="row">
+          <div class="small">Лицензии: <b id="shopLic">0</b></div>
+          <div class="small">Доход: <b id="shopIncome">0</b>/час</div>
+        </div>
+        <div class="hr"></div>
+        <div class="small">Купить лицензии за деньги: 1 лицензия = 100 денег</div>
+        <button class="buy" id="btnBuyLicense" style="width:100%;padding:10px 12px;border-radius:12px;margin-top:10px;">Купить 1 лицензию</button>
+        <div class="small" id="licMsg" style="margin-top:10px;"></div>
+      </div>
+
+      <div id="bizList"></div>
     </div>
 
-    <div class="shop-item">
-      <span id="upgrade10Text"></span>
-      <button class="buy" id="buyU10">Купить</button>
-    </div>
-
-    <div class="small">Цена растёт по формуле: base × 1.6^уровень</div>
   </div>
 </div>
 
@@ -471,26 +527,33 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
       ✅ Рабочая схема для Telegram Mini App:
       <br>1) Mini App делает POST <b>/api/create-invoice</b> → получает <b>invoiceLink</b>
       <br>2) Вызываем <b>Telegram.WebApp.openInvoice(invoiceLink)</b>
-      <br>3) На <b>paid</b> делаем POST <b>/api/confirm-payment</b>, и только потом начисляем монеты.
+      <br>3) На <b>paid</b> делаем POST <b>/api/confirm-payment</b>, и только потом начисляем награду.
       <br><br>
-      ⚠️ Если у тебя пока нет API на Vercel — кнопки доната покажут ошибку (это нормально).
+      ⚠️ Если у тебя пока нет API — кнопки доната покажут ошибку (это нормально).
     </div>
 
     <div class="hr"></div>
 
+    <!-- старые донаты +5⭐ -->
     <div class="donate-item">
-      <span>10 ⭐ = 10 000 000</span>
+      <span>15 ⭐ = 10 000 000</span>
       <button class="buy" id="don10">Купить</button>
     </div>
 
     <div class="donate-item">
-      <span>20 ⭐ = 22 000 000</span>
+      <span>25 ⭐ = 22 000 000</span>
       <button class="buy" id="don20">Купить</button>
     </div>
 
     <div class="donate-item">
-      <span>30 ⭐ = 36 000 000</span>
+      <span>35 ⭐ = 36 000 000</span>
       <button class="buy" id="don30">Купить</button>
+    </div>
+
+    <!-- новый донат -->
+    <div class="donate-item">
+      <span>35 ⭐ = X2 прибыль на 7 дней</span>
+      <button class="buy" id="donX2">Купить</button>
     </div>
 
     <div class="hr"></div>
@@ -666,15 +729,48 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
 <script>
 /*
   ✅ TG-safe версия (ES5): без optional chaining, без 1_000_000, без стрелок.
-  Чтобы донат реально работал, на Vercel добавь API:
-  - POST /api/create-invoice  -> { invoiceLink: "..." }
-  - POST /api/confirm-payment -> { ok: true }
-  (эти эндпоинты должны создавать/подтверждать оплату Stars на стороне бота/сервера)
+
+  ДОБАВЛЕНО:
+  - Лицензии (2-я валюта), бизнесы, оффлайн доход
+  - Донат: +5⭐ к старым, новый x2 на 7 дней (35⭐)
+  - TG-binding (storage по TG user id)
+  - хуки: leaderboard + checks + state upsert (через backend)
 */
 
 (function(){
+  /* ======== Config / Endpoints (backend hooks) ======== */
+  // Эти эндпоинты должны быть на твоём домене (без CORS):
+  // POST /api/state-upsert
+  // GET  /api/leaderboard
+  // POST /api/check/create
+  // POST /api/check/redeem
+  // (донат уже использует /api/create-invoice и /api/confirm-payment)
+  var ENDPOINTS = {
+    stateUpsert: "/api/state-upsert",
+    leaderboard: "/api/leaderboard",
+    checkCreate: "/api/check/create",
+    checkRedeem: "/api/check/redeem"
+  };
+
+  var COMMISSION = 0.10; // 10%
+
+  /* ======== TG helpers ======== */
+  function tgWebApp(){
+    if (window.Telegram && window.Telegram.WebApp) return window.Telegram.WebApp;
+    return null;
+  }
+  function getTgUserId(){
+    var T = tgWebApp();
+    if (!T) return null;
+    try{
+      if (T.initDataUnsafe && T.initDataUnsafe.user && T.initDataUnsafe.user.id) return String(T.initDataUnsafe.user.id);
+    }catch(e){}
+    return null;
+  }
+
   /* ======== State ======== */
-  var STORAGE_KEY = "richTapok_TGSAFE_v1";
+  var STORAGE_BASE = "richTapok_TGSAFE_v1";
+  var STORAGE_KEY = STORAGE_BASE; // будет переопределён на TG user id если есть
 
   var balance = 0;
   var clickPower = 1;
@@ -683,6 +779,61 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
   var casinoPlays = 0;
   var claimedMedals = {};  // {id:true}
   var redeemedCodes = {};  // {code:true}
+
+  /* ======== NEW: Licenses / Businesses / Offline / Boost ======== */
+  var licenses = 0;               // вторая валюта
+  var bizOwned = {};              // {id:true}
+  var lastSeenMs = 0;             // для оффлайна
+  var boostUntilMs = 0;           // x2 until
+  var boostMult = 2.0;
+
+  var BUSINESSES = [
+    { id:"ashot", title:"перепродажа тапок дяди ашота", costLic:15,  costMoney:750,  incomePerHour:200  },
+    { id:"tapok", title:"обувной ларёк таПок",          costLic:100, costMoney:1500, incomePerHour:800  },
+    { id:"abibas",title:"абибас богом клянусь не подделка", costLic:450, costMoney:8000, incomePerHour:1250 }
+  ];
+
+  var LICENSE_PRICE = 100; // 1 лицензия = 100 денег
+
+  function nowMs(){ return Date.now ? Date.now() : (new Date()).getTime(); }
+
+  function isBoostActive(){
+    return boostUntilMs && nowMs() < boostUntilMs;
+  }
+  function earningsMult(){
+    return isBoostActive() ? boostMult : 1.0;
+  }
+  function incomePerHour(){
+    var sum = 0;
+    for (var i=0;i<BUSINESSES.length;i++){
+      var b = BUSINESSES[i];
+      if (bizOwned[b.id]) sum += b.incomePerHour;
+    }
+    // x2 влияет на прибыль
+    return Math.floor(sum * earningsMult());
+  }
+
+  function applyOfflineIncome(){
+    var t = nowMs();
+    if (!lastSeenMs) lastSeenMs = t;
+    var dt = t - lastSeenMs;
+    if (dt < 1500) { lastSeenMs = t; return; }
+
+    var incH = incomePerHour();
+    if (incH > 0){
+      var earned = Math.floor((incH / 3600000) * dt);
+      if (earned > 0) addBalance(earned, true);
+    }
+    lastSeenMs = t;
+  }
+
+  function activateX2_7d(){
+    var sevenDays = 7 * 24 * 60 * 60 * 1000;
+    var t = nowMs();
+    var until = t + sevenDays;
+    // если уже есть буст — продляем до максимального
+    if (!boostUntilMs || until > boostUntilMs) boostUntilMs = until;
+  }
 
   /* ======== Shop ======== */
   var ECON = {
@@ -696,14 +847,22 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
 
   /* ======== Codes ======== */
   var CODES = {
-    "rich-tapok": { rewardMoney: 5000, rewardTap: 0 }
+    // старый
+    "rich-tapok": { rewardMoney: 5000, rewardTap: 0, rewardLic: 0 },
+    // добавил пару безопасных кодов на лицензии (можешь удалить/заменить)
+    "lic-5":      { rewardMoney: 0, rewardTap: 0, rewardLic: 5 },
+    "lic-20":     { rewardMoney: 0, rewardTap: 0, rewardLic: 20 }
   };
 
-  /* ======== Donate Packs ======== */
+  /* ======== Donate Packs (UPDATED) ======== */
+  // +5⭐ к старым:
+  // 10->15, 20->25, 30->35
+  // + новый x2 на 7 дней за 35⭐
   var DONATE_PACKS = {
-    "stars10": { stars: 10, money: 10000000 },
-    "stars20": { stars: 20, money: 22000000 },
-    "stars30": { stars: 30, money: 36000000 }
+    "stars10": { stars: 15, money: 10000000 },
+    "stars20": { stars: 25, money: 22000000 },
+    "stars30": { stars: 35, money: 36000000 },
+    "x2_7d":   { stars: 35, money: 0, boost: true }
   };
 
   /* ======== Casino ======== */
@@ -732,6 +891,12 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
   function $(id){ return document.getElementById(id); }
 
   /* ======== Persistence ======== */
+  function computeStorageKey(){
+    var uid = getTgUserId();
+    if (uid) return STORAGE_BASE + "__tg_" + uid;
+    return STORAGE_BASE + "__device";
+  }
+
   function save(){
     try{
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
@@ -741,13 +906,20 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
         casinoPlays: casinoPlays,
         claimedMedals: claimedMedals,
         redeemedCodes: redeemedCodes,
-        lvl1:lvl1, lvl3:lvl3, lvl5:lvl5, lvl10:lvl10
+        lvl1:lvl1, lvl3:lvl3, lvl5:lvl5, lvl10:lvl10,
+
+        // NEW
+        licenses: licenses,
+        bizOwned: bizOwned,
+        lastSeenMs: lastSeenMs,
+        boostUntilMs: boostUntilMs
       }));
     }catch(e){}
   }
 
   function load(){
     try{
+      STORAGE_KEY = computeStorageKey();
       var raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
       var data = JSON.parse(raw);
@@ -764,6 +936,13 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
       if (typeof data.lvl3 === "number") lvl3 = data.lvl3;
       if (typeof data.lvl5 === "number") lvl5 = data.lvl5;
       if (typeof data.lvl10 === "number") lvl10 = data.lvl10;
+
+      // NEW
+      if (typeof data.licenses === "number") licenses = data.licenses;
+      if (data.bizOwned && typeof data.bizOwned === "object") bizOwned = data.bizOwned;
+      if (typeof data.lastSeenMs === "number") lastSeenMs = data.lastSeenMs;
+      if (typeof data.boostUntilMs === "number") boostUntilMs = data.boostUntilMs;
+
     }catch(e){}
   }
 
@@ -803,6 +982,16 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
     return s.toLowerCase();
   }
 
+  function msToHuman(ms){
+    if (!ms || ms <= 0) return "нет";
+    var left = ms - nowMs();
+    if (left <= 0) return "нет";
+    var sec = Math.floor(left / 1000);
+    var h = Math.floor(sec / 3600);
+    var m = Math.floor((sec % 3600) / 60);
+    return "x2 " + h + "ч " + m + "м";
+  }
+
   /* ======== UI ======== */
   function refreshMedalsUI(){
     $("m_million_meta").textContent = "Нужно заработать 1,000,000 • Сейчас: " + formatNumber(totalEarned);
@@ -832,6 +1021,47 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
     }
   }
 
+  function renderBusinessesUI(){
+    var licEl = $("shopLic");
+    var incEl = $("shopIncome");
+    var list = $("bizList");
+    if (licEl) licEl.textContent = String(licenses);
+    if (incEl) incEl.textContent = formatNumber(incomePerHour());
+
+    if (!list) return;
+    list.innerHTML = "";
+
+    for (var i=0;i<BUSINESSES.length;i++){
+      (function(b){
+        var owned = !!bizOwned[b.id];
+        var can = (!owned && licenses >= b.costLic && balance >= b.costMoney);
+
+        var item = document.createElement("div");
+        item.className = "shop-item";
+
+        var left = document.createElement("span");
+        left.innerHTML =
+          "<b>" + b.title + "</b>" +
+          "<br><span class='small'>Цена: " + b.costLic + " лицензий + " + formatNumber(b.costMoney) + " денег</span>" +
+          "<br><span class='small'>Доход: " + formatNumber(b.incomePerHour) + "/час</span>" +
+          (owned ? "<br><span class='small' style='color:var(--ok)'>Куплено</span>" : "");
+
+        var btn = document.createElement("button");
+        btn.className = "buy";
+        btn.textContent = owned ? "Есть" : "Купить";
+        btn.disabled = owned || !can;
+
+        btn.addEventListener("click", function(){
+          buyBusiness(b.id);
+        });
+
+        item.appendChild(left);
+        item.appendChild(btn);
+        list.appendChild(item);
+      })(BUSINESSES[i]);
+    }
+  }
+
   function updateUI(){
     elBalance.textContent = formatNumber(balance);
 
@@ -849,7 +1079,13 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
     $("stat_casino").textContent = String(casinoPlays);
     $("stat_codes").textContent = String(Object.keys(redeemedCodes).length);
 
+    // NEW stats in medals
+    $("stat_lic").textContent = String(licenses);
+    $("stat_income").textContent = formatNumber(incomePerHour());
+    $("stat_boost").textContent = msToHuman(boostUntilMs);
+
     refreshMedalsUI();
+    renderBusinessesUI();
   }
 
   /* ======== Modals ======== */
@@ -872,6 +1108,8 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
     if (m) m.style.display = "flex";
     if (navBtn) navBtn.classList.add("active");
     if (id === "casino") showCasinoView("menu");
+    if (id === "leaders") loadLeaders();
+    if (id === "shop") showShopTab("upgrades");
   }
 
   function closeModal(id){
@@ -894,13 +1132,15 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
 
   /* ======== Tap ======== */
   function doTap(e){
-    addBalance(clickPower, true);
+    // x2 влияет и на тап
+    var gain = Math.floor(clickPower * earningsMult());
+    addBalance(gain, true);
     updateUI();
     save();
 
     var plus = document.createElement("div");
     plus.className = "floating";
-    plus.textContent = "+" + clickPower;
+    plus.textContent = "+" + gain;
 
     var rect = elCoin.getBoundingClientRect();
     var x = 90, y = 90;
@@ -938,6 +1178,58 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
     alert("Прокачка куплена!");
   }
 
+  function showShopTab(which){
+    var up = $("shopViewUpgrades");
+    var bz = $("shopViewBusinesses");
+    if (!up || !bz) return;
+
+    if (which === "businesses"){
+      up.style.display = "none";
+      bz.style.display = "block";
+      renderBusinessesUI();
+    } else {
+      bz.style.display = "none";
+      up.style.display = "block";
+    }
+  }
+
+  function buyLicense(){
+    if (balance < LICENSE_PRICE){
+      setLicMsg("Не хватает денег для лицензии.", false);
+      return;
+    }
+    balance -= LICENSE_PRICE;
+    licenses += 1;
+    setLicMsg("Куплено: +1 лицензия.", true);
+    updateUI(); save();
+  }
+
+  function setLicMsg(text, ok){
+    var el = $("licMsg");
+    if (!el) return;
+    el.textContent = text || "";
+    el.style.color = ok ? "var(--ok)" : "var(--danger)";
+  }
+
+  function buyBusiness(id){
+    var b = null;
+    for (var i=0;i<BUSINESSES.length;i++){
+      if (BUSINESSES[i].id === id){ b = BUSINESSES[i]; break; }
+    }
+    if (!b) return;
+    if (bizOwned[id]) return;
+
+    if (licenses < b.costLic){ alert("Не хватает лицензий!"); return; }
+    if (balance < b.costMoney){ alert("Не хватает денег!"); return; }
+
+    licenses -= b.costLic;
+    balance -= b.costMoney;
+    bizOwned[id] = true;
+
+    updateUI(); save();
+    alert("Бизнес куплен! Доход начисляется оффлайн.");
+  }
+
   /* ======== Codes ======== */
   function setCodeMsg(text, ok){
     var el = $("codeMsg");
@@ -957,12 +1249,17 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
 
     var rewardMoney = CODES[code].rewardMoney || 0;
     var rewardTap = CODES[code].rewardTap || 0;
+    var rewardLic = CODES[code].rewardLic || 0;
 
     if (rewardMoney > 0) addBalance(rewardMoney, true);
     if (rewardTap > 0) clickPower += rewardTap;
+    if (rewardLic > 0) licenses += rewardLic;
 
     input.value = "";
-    setCodeMsg("Код активирован! +" + formatNumber(rewardMoney), true);
+    var msg = "Код активирован!";
+    if (rewardMoney > 0) msg += " +" + formatNumber(rewardMoney);
+    if (rewardLic > 0) msg += " +" + rewardLic + " лицензий";
+    setCodeMsg(msg, true);
 
     updateUI();
     save();
@@ -972,19 +1269,27 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
   function claimMedal(id){
     if (claimedMedals[id]) return;
 
+    // NEW: лицензии идут только из медалей/кодов/покупки
+    var licReward = 0;
+
     if (id === "tap_millionaire"){
       if (totalEarned < 1000000) return;
       clickPower += 2;
+      licReward = 3;
     } else if (id === "gambler50"){
       if (casinoPlays < 50) return;
       clickPower += 2;
+      licReward = 2;
     } else if (id === "no_police"){
       if (Object.keys(redeemedCodes).length < 3) return;
       addBalance(15000, true);
       clickPower += 5;
+      licReward = 5;
     } else {
       return;
     }
+
+    if (licReward > 0) licenses += licReward;
 
     claimedMedals[id] = true;
     updateUI();
@@ -993,11 +1298,6 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
   }
 
   /* ======== Telegram Stars (реально через openInvoice + API) ======== */
-  function tgWebApp(){
-    if (window.Telegram && window.Telegram.WebApp) return window.Telegram.WebApp;
-    return null;
-  }
-
   function setDonateMsg(text, ok){
     var el = $("donateMsg");
     el.textContent = text || "";
@@ -1021,9 +1321,33 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
     xhr.send(JSON.stringify(payload));
   }
 
+  function httpGetJson(url, cb){
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.onreadystatechange = function(){
+      if (xhr.readyState !== 4) return;
+      if (xhr.status >= 200 && xhr.status < 300){
+        var data = null;
+        try{ data = JSON.parse(xhr.responseText); }catch(e){}
+        cb(null, data);
+      } else {
+        cb(new Error("HTTP " + xhr.status), null);
+      }
+    };
+    xhr.send(null);
+  }
+
   function grantDonation(packId){
     var pack = DONATE_PACKS[packId];
     if (!pack) return;
+
+    if (pack.boost){
+      activateX2_7d();
+      updateUI(); save();
+      alert("Успешно! X2 прибыль активирована на 7 дней.");
+      return;
+    }
+
     addBalance(pack.money, true);
     updateUI();
     save();
@@ -1040,9 +1364,7 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
       return;
     }
 
-    try{
-      T.ready();
-    }catch(e){}
+    try{ T.ready(); }catch(e){}
 
     setDonateMsg("Создаём инвойс...", true);
 
@@ -1051,7 +1373,7 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
     // 1) create invoice (ВАЖНО: на одном домене, без CORS)
     httpPostJson("/api/create-invoice", { packId: packId, initData: initData }, function(err, data){
       if (err || !data || !data.invoiceLink){
-        setDonateMsg("Ошибка создания инвойса. Нужен API /api/create-invoice на Vercel.", false);
+        setDonateMsg("Ошибка создания инвойса. Нужен API /api/create-invoice.", false);
         return;
       }
 
@@ -1068,7 +1390,8 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
               return;
             }
             grantDonation(packId);
-            setDonateMsg("Оплата успешна ✅ Монеты начислены.", true);
+            setDonateMsg("Оплата успешна ✅ Награда начислена.", true);
+            tryStateUpsert(); // бонус: синк профиля
           });
         } else if (status === "cancelled"){
           setDonateMsg("Покупка отменена.", false);
@@ -1076,6 +1399,182 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
           setDonateMsg("Оплата неуспешна.", false);
         }
       });
+    });
+  }
+
+  /* ======== Real leaders (backend hook) ======== */
+  function setLeadersMsg(text, ok){
+    var el = $("leadersMsg");
+    if (!el) return;
+    el.textContent = text || "";
+    el.style.color = ok ? "var(--ok)" : "var(--danger)";
+  }
+
+  function loadLeaders(){
+    var list = $("leadersList");
+    if (!list) return;
+
+    // если нет TG или backend — оставляем заглушку
+    var T = tgWebApp();
+    if (!T){
+      setLeadersMsg("Открой в Telegram для реальных лидеров.", false);
+      return;
+    }
+
+    setLeadersMsg("Загружаем лидеров...", true);
+
+    httpGetJson(ENDPOINTS.leaderboard, function(err, data){
+      if (err || !data || !data.top){
+        setLeadersMsg("Нет backend /api/leaderboard — показываем заглушку.", false);
+        return;
+      }
+
+      var top = data.top;
+      list.innerHTML = "";
+
+      for (var i=0;i<top.length && i<20;i++){
+        var p = document.createElement("p");
+        var nm = (top[i].name ? String(top[i].name) : ("id " + String(top[i].user_id || "")));
+        var mm = formatNumber(Number(top[i].money || 0));
+        p.textContent = (i+1) + ". " + nm + " — " + mm;
+        list.appendChild(p);
+      }
+
+      setLeadersMsg("Обновлено ✅", true);
+    });
+  }
+
+  /* ======== State upsert (backend hook) ======== */
+  function tryStateUpsert(){
+    var T = tgWebApp();
+    if (!T) return;
+
+    var initData = T.initData || "";
+    if (!initData) return;
+
+    // тихо, без ошибок в UI
+    httpPostJson(ENDPOINTS.stateUpsert, {
+      initData: initData,
+      state: {
+        money: Math.floor(balance),
+        clickPower: Math.floor(clickPower),
+        totalEarned: Math.floor(totalEarned),
+        licenses: Math.floor(licenses),
+        incomePerHour: Math.floor(incomePerHour()),
+        boostUntilMs: Math.floor(boostUntilMs || 0)
+      }
+    }, function(){});
+  }
+
+  /* ======== Checks (backend hook) ======== */
+  function setCheckMsg(text, ok){
+    var el = $("checkMsg");
+    if (!el) return;
+    el.textContent = text || "";
+    el.style.color = ok ? "var(--ok)" : "var(--danger)";
+  }
+
+  function setCheckLink(text){
+    var el = $("checkLink");
+    if (!el) return;
+    el.textContent = text || "";
+  }
+
+  function createCheck(){
+    var amountEl = $("checkAmount");
+    var amt = Number(amountEl ? amountEl.value : 0);
+    amt = Math.floor(amt);
+    if (!isFinite(amt) || amt < 1){
+      setCheckMsg("Сумма должна быть >= 1.", false);
+      return;
+    }
+    if (balance < amt){
+      setCheckMsg("Не хватает денег.", false);
+      return;
+    }
+
+    var T = tgWebApp();
+    if (!T){
+      setCheckMsg("Открой в Telegram для чеков (нужен backend).", false);
+      return;
+    }
+
+    var initData = T.initData || "";
+    if (!initData){
+      setCheckMsg("initData отсутствует.", false);
+      return;
+    }
+
+    setCheckMsg("Создаём чек...", true);
+
+    httpPostJson(ENDPOINTS.checkCreate, { initData: initData, amount: amt }, function(err, data){
+      if (err || !data || !data.link){
+        setCheckMsg("Ошибка. Нужен backend /api/check/create.", false);
+        return;
+      }
+
+      // UX: списываем сразу (сервер — источник истины)
+      balance -= amt;
+      updateUI(); save();
+      tryStateUpsert();
+
+      setCheckMsg("Чек создан ✅ Комиссия 10%.", true);
+      setCheckLink(String(data.link));
+    });
+  }
+
+  function getQueryParam(name){
+    var s = location.search || "";
+    if (!s) return null;
+    s = s.replace(/^\?/, "");
+    var parts = s.split("&");
+    for (var i=0;i<parts.length;i++){
+      var kv = parts[i].split("=");
+      if (decodeURIComponent(kv[0] || "") === name) return decodeURIComponent(kv[1] || "");
+    }
+    return null;
+  }
+
+  function clearQueryParam(name){
+    try{
+      var url = location.pathname;
+      history.replaceState({}, "", url);
+    }catch(e){}
+  }
+
+  function maybeRedeemCheckOnLoad(){
+    var token = getQueryParam("redeem");
+    if (!token) return;
+
+    var T = tgWebApp();
+    if (!T){
+      alert("Для активации чека нужно открыть ссылку внутри Telegram.");
+      clearQueryParam("redeem");
+      return;
+    }
+
+    var initData = T.initData || "";
+    if (!initData){
+      alert("initData отсутствует.");
+      clearQueryParam("redeem");
+      return;
+    }
+
+    // backend: выдаёт сумму минус 10%
+    httpPostJson(ENDPOINTS.checkRedeem, { initData: initData, token: token }, function(err, data){
+      if (err || !data || data.ok !== true){
+        alert("Ошибка активации. Нужен backend /api/check/redeem.");
+        clearQueryParam("redeem");
+        return;
+      }
+      // если backend вернул сумму — применим, иначе просто сообщим
+      if (typeof data.amount === "number" && isFinite(data.amount) && data.amount > 0){
+        addBalance(Math.floor(data.amount), true);
+        updateUI(); save();
+        tryStateUpsert();
+      }
+      alert(data.message || "Чек активирован ✅");
+      clearQueryParam("redeem");
     });
   }
 
@@ -1211,14 +1710,14 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
     r2.classList.add("spinning");
     r3.classList.add("spinning");
 
-    var start = Date.now();
+    var start = nowMs();
     var spinFor = 950;
 
     function tick(){
       r1.textContent = randSymbol();
       r2.textContent = randSymbol();
       r3.textContent = randSymbol();
-      if (Date.now() - start < spinFor){
+      if (nowMs() - start < spinFor){
         requestAnimationFrame(tick);
       }
     }
@@ -1433,6 +1932,8 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
         btn.addEventListener("click", function(){
           var id = btn.getAttribute("data-close");
           closeModal(id);
+          // аккуратно синкнем прогресс в бекенд (если есть)
+          tryStateUpsert();
         });
       })(closes[i]);
     }
@@ -1444,11 +1945,18 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
     elCoin.addEventListener("touchstart", function(e){ doTap(e); }, {passive:true});
     elCoin.addEventListener("click", function(e){ doTap(e); });
 
-    // shop
+    // shop upgrades
     $("buyU1").addEventListener("click", function(){ buyUpgrade("u1"); });
     $("buyU3").addEventListener("click", function(){ buyUpgrade("u3"); });
     $("buyU5").addEventListener("click", function(){ buyUpgrade("u5"); });
     $("buyU10").addEventListener("click", function(){ buyUpgrade("u10"); });
+
+    // shop tabs
+    $("tabUpgrades").addEventListener("click", function(){ showShopTab("upgrades"); });
+    $("tabBusinesses").addEventListener("click", function(){ showShopTab("businesses"); });
+
+    // buy license
+    $("btnBuyLicense").addEventListener("click", buyLicense);
 
     // codes
     $("btnRedeem").addEventListener("click", redeemCode);
@@ -1458,10 +1966,14 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
     $("m_gambler_btn").addEventListener("click", function(){ claimMedal("gambler50"); });
     $("m_nopolice_btn").addEventListener("click", function(){ claimMedal("no_police"); });
 
-    // donate buttons
+    // donate buttons (updated + new)
     $("don10").addEventListener("click", function(){ buyStarsPack("stars10"); });
     $("don20").addEventListener("click", function(){ buyStarsPack("stars20"); });
     $("don30").addEventListener("click", function(){ buyStarsPack("stars30"); });
+    $("donX2").addEventListener("click", function(){ buyStarsPack("x2_7d"); });
+
+    // checks
+    $("btnCreateCheck").addEventListener("click", createCheck);
 
     // casino menu navigation
     $("goHT").addEventListener("click", function(){ showCasinoView("ht"); });
@@ -1498,11 +2010,24 @@ button.buy[disabled]{opacity:.55;cursor:not-allowed;}
 
   /* ======== Init ======== */
   load();
+  applyOfflineIncome();         // NEW: оффлайн начисление
+  lastSeenMs = nowMs();         // обновляем lastSeen
   updateUI();
   pickSide("H");
   renderBC();
   bcSetState(false);
   bind();
+
+  // NEW: если открыли ссылку с redeem токеном — активируем чек
+  maybeRedeemCheckOnLoad();
+
+  // автосейв + lastSeen
+  setInterval(function(){
+    lastSeenMs = nowMs();
+    save();
+    // иногда синкнем (если есть бекенд)
+    tryStateUpsert();
+  }, 10000);
 
 })();
 </script>
